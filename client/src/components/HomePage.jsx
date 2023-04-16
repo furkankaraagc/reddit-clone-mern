@@ -2,6 +2,7 @@ import { CreatePost } from "./CreatePost";
 import { Filter } from "./Filter";
 import { Posts } from "./Posts";
 import { SideBar } from "./Sidebar";
+import { Link } from "react-router-dom";
 
 export const HomePage = () => {
   return (
@@ -10,9 +11,9 @@ export const HomePage = () => {
         <SideBar />
       </div>
       <div>
+        <Link to='/createPost'>Create Post</Link>
         <Filter />
         <Posts />
-        <CreatePost />
       </div>
     </div>
   );

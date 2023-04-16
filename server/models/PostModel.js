@@ -21,6 +21,18 @@ const PostSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    votedBy: [
+      {
+        user: {
+          type: String,
+        },
+
+        voteType: {
+          type: String,
+          enum: ["upvote", "downvote"],
+        },
+      },
+    ],
   },
   {
     timestamps: true,

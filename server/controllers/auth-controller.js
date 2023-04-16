@@ -17,7 +17,6 @@ exports.register = async (req, res) => {
     const token = jwt.sign({ id: user._id }, "123", {
       expiresIn: "1h",
     });
-    // res.cookie("token", token);
 
     res.status(201).json({ success: true, token: token });
   } catch (error) {

@@ -4,7 +4,6 @@ const UserModel = require("../models/UserModel");
 exports.protect = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
-    console.log(req.headers.authorization);
     return res.status(501).json("Unauthorizied");
   }
   try {
@@ -17,6 +16,6 @@ exports.protect = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    return res.json({ error: "errors" });
+    return res.json({ error: error.message });
   }
 };

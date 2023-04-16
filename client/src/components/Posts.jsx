@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 export const Posts = () => {
   const [posts, setPosts] = useState([]);
-  const [vote, setVote] = useState(0);
 
   useEffect(() => {
     getAllPosts();
@@ -35,7 +34,7 @@ export const Posts = () => {
       return (timeAgo = `${dayDiff} days ago`);
     }
   };
-  const upvote = async (post) => {
+  const voteHandler = async (post, voteType) => {
     await fetch("http://localhost:8000/vote", {
       method: "PUT",
       headers: {
@@ -44,11 +43,11 @@ export const Posts = () => {
       },
       body: JSON.stringify({
         postId: post._id,
-        voteType: "upvote",
+        voteType: voteType,
       }),
     }).then((res) => res.json());
+    getAllPosts();
   };
-  getAllPosts();
 
   return (
     <div className=''>
@@ -58,11 +57,23 @@ export const Posts = () => {
           return (
             <div className='border-black border-2 bg-white '>
               <div>
-                <button onClick={() => upvote(post)} className='border-2'>
+                <button
+                  onClick={() => {
+                    voteHandler(post, "upvote");
+                  }}
+                  className='border-2'
+                >
                   upvote
                 </button>
                 <span> {post.vote} </span>
-                <button className='border-2'>downvote</button>
+                <button
+                  onClick={() => {
+                    voteHandler(post, "downvote");
+                  }}
+                  className='border-2'
+                >
+                  downvote
+                </button>
               </div>
               <div className='flex'>
                 <p>{post.subcategory}</p>

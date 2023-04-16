@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "antd": "^5.4.2",
     "axios": "^1.3.5",
     "js-cookie": "^3.0.1",
     "react": "^18.2.0",

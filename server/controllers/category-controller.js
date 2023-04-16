@@ -38,3 +38,11 @@ exports.createSubcategory = async (req, res) => {
       .json({ message: "Failed to create subcategory", error: error.message });
   }
 };
+exports.getAllCategories = async (req, res) => {
+  try {
+    const categories = await CategoryModel.find();
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};

@@ -11,14 +11,18 @@ const {
 const {
   createCategory,
   createSubcategory,
+  getAllCategories,
 } = require("../controllers/category-controller");
 
 router.post("/login", login);
 router.post("/register", register);
 
 router.post("/createPost", protect, createPost);
+
 router.post("/createCategory", protect, createCategory);
 router.post("/createSubcategory", protect, createSubcategory);
+
+router.get("/categories", protect, getAllCategories);
 
 router.put("/vote", protect, vote);
 
