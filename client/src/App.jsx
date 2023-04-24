@@ -9,10 +9,10 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className='bg-gray-300 h-full'>
+      <div className='bg-gray-200 h-full '>
         <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <Routes>
-          <Route path='/' element={<HomePage />} />
+          <Route path='/' element={<HomePage isLoggedIn={isLoggedIn} />} />
           <Route path='/createPost' element={<CreatePost />} />
         </Routes>
       </div>

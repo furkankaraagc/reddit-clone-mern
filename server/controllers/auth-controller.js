@@ -14,9 +14,7 @@ exports.register = async (req, res) => {
     });
     user.password = await bcrypt.hash(user.password, 10);
     await user.save();
-    const token = jwt.sign({ id: user._id }, "123", {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign({ id: user._id }, "123");
 
     res.status(201).json({ success: true, token: token });
   } catch (error) {
@@ -44,6 +42,7 @@ exports.login = async (req, res) => {
       isMatch,
       token: token,
       username: username,
+      userId: user._id,
     });
   } catch {
     res.status(404).json({ success: false, error: "Wrong username" });

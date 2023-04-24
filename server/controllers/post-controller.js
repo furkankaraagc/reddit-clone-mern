@@ -16,9 +16,11 @@ exports.createPost = async (req, res) => {
       author,
     });
     await post.save();
-    res.status(201).json({ success: true, message: "post created" });
+    res
+      .status(201)
+      .json({ success: true, message: "Post created successfully" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, message: "" });
   }
 };
 
@@ -75,17 +77,25 @@ exports.vote = async (req, res) => {
           post.vote -= 2;
         }
 
-        const filter = {
-          _id: post._id,
-        };
-        const update = {
-          votedBy: {
-            user: user._id.toString(),
-            voteType: voteType,
-          },
-        };
+        const index = post.votedBy.findIndex(
+          (element) => element.user === user._id.toString()
+        );
+        console.log(index);
+        post.votedBy[index].voteType = voteType;
 
-        await PostModel.findByIdAndUpdate(filter, update);
+        // const filter = {
+        //   _id: post._id,
+        // };
+        // const update = {
+        //   $set: {
+        //     votedBy: {
+        //       user: user._id.toString(),
+        //       voteType: voteType,
+        //     },
+        //   },
+        // };
+
+        // await PostModel.findByIdAndUpdate(filter, update, { new: true });
         await post.save();
         res.status(200).json({ post, message: "Post updated" });
       }

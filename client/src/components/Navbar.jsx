@@ -3,7 +3,7 @@ import { User } from "../components/User";
 
 export const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   return (
-    <nav className='h-10 bg-white flex justify-between px-3 items-center  '>
+    <nav className='h-11 bg-white flex justify-between px-3  items-center border-2 border-gray-200 fixed w-full z-10'>
       <Link to='/'>Reddit</Link>
       <input
         type='text'

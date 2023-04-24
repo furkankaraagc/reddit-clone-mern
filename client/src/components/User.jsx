@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 export const User = ({ isLoggedIn, setIsLoggedIn }) => {
   const [dropDown, setDropDown] = useState(false);
@@ -31,6 +30,8 @@ export const User = ({ isLoggedIn, setIsLoggedIn }) => {
       if (res.data.success === true) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("username", res.data.username);
+        localStorage.setItem("userId", res.data.userId);
+
         navigate(0); // force refresh
       }
     } catch (error) {
@@ -81,6 +82,7 @@ export const User = ({ isLoggedIn, setIsLoggedIn }) => {
                   onClick={() => {
                     localStorage.removeItem("token");
                     localStorage.removeItem("username");
+                    localStorage.removeItem("userId");
                     navigate(0);
                   }}
                 >
@@ -101,7 +103,7 @@ export const User = ({ isLoggedIn, setIsLoggedIn }) => {
             </div>
           )}
           {modal && (
-            <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center'>
+            <div className='z-10 fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center'>
               <div className='bg-white rounded-lg px-5 pt-1 pb-5 flex flex-col'>
                 <button
                   onClick={() => setModal(false)}

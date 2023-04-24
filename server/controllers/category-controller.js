@@ -46,3 +46,13 @@ exports.getAllCategories = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+exports.getAllSubcategories = async (req, res) => {
+  try {
+    const subcategories = await CategoryModel.find();
+    console.log(subcategories);
+    res.status(200).json(subcategories);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
