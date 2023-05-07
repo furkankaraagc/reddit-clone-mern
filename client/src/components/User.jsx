@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export const User = ({ isLoggedIn, setIsLoggedIn }) => {
+export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
   const [dropDown, setDropDown] = useState(false);
-  const [modal, setModal] = useState(false);
   const [login, setLogin] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -72,22 +71,32 @@ export const User = ({ isLoggedIn, setIsLoggedIn }) => {
           </p>
           {dropDown && (
             <div className='z-10 bg-white  border shadow-lg p-4 w-48 right-5  absolute'>
-              <div className='flex'>
-                <div>Dark Mode</div>
-                <input type='checkbox' name='' id='' />
-              </div>
               {isLoggedIn ? (
-                <div
-                  className='cursor-pointer'
-                  onClick={() => {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("username");
-                    localStorage.removeItem("userId");
-                    navigate(0);
-                  }}
-                >
-                  Log Out
-                </div>
+                <>
+                  <div
+                    className='cursor-pointer'
+                    onClick={() => navigate("/savedPosts")}
+                  >
+                    Saved Posts
+                  </div>
+                  <div
+                    className='cursor-pointer'
+                    onClick={() => navigate("/submittedPosts")}
+                  >
+                    Your Posts
+                  </div>
+                  <div
+                    className='cursor-pointer'
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("username");
+                      localStorage.removeItem("userId");
+                      navigate(0);
+                    }}
+                  >
+                    Log Out
+                  </div>
+                </>
               ) : (
                 <div
                   onClick={() => {

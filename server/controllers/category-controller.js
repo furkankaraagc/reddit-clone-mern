@@ -1,7 +1,7 @@
 const CategoryModel = require("../models/CategoryModel");
 
 exports.createCategory = async (req, res) => {
-  const { category } = req.body;
+  let { category } = req.body;
 
   try {
     const isCategoryExist = await CategoryModel.findOne({ category });
@@ -10,6 +10,8 @@ exports.createCategory = async (req, res) => {
         .status(500)
         .json({ error: "There is already a category with this name" });
     }
+    category = category.charAt(0).toUpperCase() + category.slice(1);
+
     const newCategory = await new CategoryModel({
       category,
     });
@@ -27,8 +29,15 @@ exports.createSubcategory = async (req, res) => {
   try {
     const existingCategory = await CategoryModel.findOne({ category });
     if (!existingCategory) {
-      return res.status(404).json({ error: "Category not found" });
+      return res.status(404).json({ message: "Category not found" });
     }
+    const existingSubCategory = await CategoryModel.findOne({ subcategory });
+    if (existingSubCategory !== null) {
+      return res
+        .status(500)
+        .json({ message: "There is already a subcategory with this name" });
+    }
+
     existingCategory.subcategory.push(subcategory);
     await existingCategory.save();
     res.status(200).json({ message: "Subcategory created successfully" });
@@ -46,11 +55,9 @@ exports.getAllCategories = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
-
 exports.getAllSubcategories = async (req, res) => {
   try {
     const subcategories = await CategoryModel.find();
-    console.log(subcategories);
     res.status(200).json(subcategories);
   } catch (error) {
     res.status(404).json({ message: error.message });

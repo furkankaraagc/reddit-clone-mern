@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { User } from "../components/User";
 
-export const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
+export const Navbar = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
   return (
     <nav className='h-11 bg-white flex justify-between px-3  items-center border-2 border-gray-200 fixed w-full z-10'>
       <Link to='/'>Reddit</Link>
@@ -10,7 +10,12 @@ export const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
         placeholder='Search'
         className='border-black shadow-md rounded-xl h-6 p-4 bg-gray-100 '
       />
-      <User isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <User
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        modal={modal}
+        setModal={setModal}
+      />
     </nav>
   );
 };

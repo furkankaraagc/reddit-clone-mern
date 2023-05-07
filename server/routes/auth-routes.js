@@ -7,6 +7,12 @@ const {
   createPost,
   getAllPosts,
   vote,
+  savePost,
+  getUser,
+  getOnePost,
+  getOneSubCategory,
+  getSavedPosts,
+  getSubmittedPosts,
 } = require("../controllers/post-controller");
 const {
   createCategory,
@@ -17,17 +23,20 @@ const {
 
 router.post("/login", login);
 router.post("/register", register);
-
 router.post("/createPost", protect, createPost);
-
 router.post("/createCategory", protect, createCategory);
 router.post("/createSubcategory", protect, createSubcategory);
 
+router.get("/", getAllPosts);
 router.get("/categories", getAllCategories);
-router.get("/subcategories", protect, getAllSubcategories);
+router.get("/subcategories", getAllSubcategories);
+router.get("/user", protect, getUser);
+router.get("/savedPosts", protect, getSavedPosts);
+router.get("/submittedPosts", protect, getSubmittedPosts);
+router.get("/post/:postId", getOnePost);
+router.get("/sub/:subcategory", getOneSubCategory);
 
 router.put("/vote", protect, vote);
-
-router.get("/", getAllPosts);
+router.put("/savePost", protect, savePost);
 
 module.exports = router;

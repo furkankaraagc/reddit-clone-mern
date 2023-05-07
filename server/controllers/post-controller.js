@@ -1,4 +1,6 @@
+const CategoryModel = require("../models/CategoryModel");
 const PostModel = require("../models/PostModel");
+const UserModel = require("../models/UserModel");
 
 exports.createPost = async (req, res) => {
   const { body, category, subcategory, title } = req.body;
@@ -7,6 +9,13 @@ exports.createPost = async (req, res) => {
   const author = req.user;
 
   try {
+    const isSubExist = await CategoryModel.find({
+      category: category,
+      subcategory: subcategory,
+    });
+    if (isSubExist.length === 0) {
+      throw new Error();
+    }
     const post = await new PostModel({
       username,
       body,
@@ -15,15 +24,22 @@ exports.createPost = async (req, res) => {
       subcategory,
       author,
     });
+
     await post.save();
+    const user = await UserModel.findOne({ username: post.username });
+    user.submittedPosts.push(post._id);
+    await user.save();
+
     res
       .status(201)
       .json({ success: true, message: "Post created successfully" });
   } catch (error) {
-    res.status(500).json({ error: error.message, message: "" });
+    res.status(500).json({
+      error: error.message,
+      message: "There is no category or subcategory like this",
+    });
   }
 };
-
 exports.getAllPosts = async (req, res) => {
   try {
     const posts = await PostModel.find();
@@ -80,22 +96,7 @@ exports.vote = async (req, res) => {
         const index = post.votedBy.findIndex(
           (element) => element.user === user._id.toString()
         );
-        console.log(index);
         post.votedBy[index].voteType = voteType;
-
-        // const filter = {
-        //   _id: post._id,
-        // };
-        // const update = {
-        //   $set: {
-        //     votedBy: {
-        //       user: user._id.toString(),
-        //       voteType: voteType,
-        //     },
-        //   },
-        // };
-
-        // await PostModel.findByIdAndUpdate(filter, update, { new: true });
         await post.save();
         res.status(200).json({ post, message: "Post updated" });
       }
@@ -114,5 +115,79 @@ exports.vote = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+exports.savePost = async (req, res) => {
+  const { postId } = req.body;
+  const user = req.user;
+  try {
+    const post = await PostModel.findById({ _id: postId });
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+    if (user.savedPosts.includes(postId)) {
+      const index = user.savedPosts.indexOf(postId);
+      user.savedPosts.splice(index, 1);
+      await user.save();
+      return res.status(200).json({ user, message: "Post unsaved" });
+    }
+    user.savedPosts.push(postId);
+    await user.save();
+    res.status(200).json({ user, message: "Post saved" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+};
+exports.getUser = async (req, res) => {
+  try {
+    const { savedPosts } = req.user;
+    res.status(200).json({ savedPosts: savedPosts });
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+exports.getOnePost = async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const post = await PostModel.findById({ _id: postId });
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(404).json({ message: "Post not found" });
+  }
+};
+exports.getOneSubCategory = async (req, res) => {
+  const { subcategory } = req.params;
+  try {
+    const posts = await PostModel.find({ subcategory: subcategory });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(404).json({ message: "Post not found" });
+  }
+};
+exports.getSavedPosts = async (req, res) => {
+  const user = req.user;
+  try {
+    const postIds = user.savedPosts;
+    const posts = await Promise.all(
+      postIds.map((postId) => PostModel.findById(postId))
+    );
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(404).json({ message: "Something went wrong" });
+  }
+};
+exports.getSubmittedPosts = async (req, res) => {
+  const user = req.user;
+  try {
+    const postIds = user.submittedPosts;
+    const posts = await Promise.all(
+      postIds.map((postId) => PostModel.findById(postId))
+    );
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(404).json({ message: "Something went wrong" });
   }
 };

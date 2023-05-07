@@ -55,7 +55,7 @@ export const AutocompleteSub = ({ refTwo, focus, topic, setSubcategory }) => {
         <input
           value={value}
           type='text'
-          placeholder='Choose a category'
+          placeholder='Choose a subcategory'
           onChange={handleChange}
           className=' pl-10 flex  flex-grow h-9'
           ref={refTwo}
