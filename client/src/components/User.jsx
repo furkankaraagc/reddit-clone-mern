@@ -8,6 +8,7 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [notify, setNotify] = useState("");
 
   const navigate = useNavigate();
 
@@ -34,29 +35,29 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
         navigate(0); // force refresh
       }
     } catch (error) {
-      return console.log(error.message);
+      return setNotify("Incorrect username or password");
     }
   };
   const registerHandler = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      return console.log("Password does not match");
+      return setNotify("Password do not match");
     }
 
     try {
-      await fetch("http://localhost:8000/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data));
+      const res = await axios.post("http://localhost:8000/register", {
+        username: username,
+        password: password,
+      });
+
+      if (res.data.success === true) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("username", res.data.username);
+        localStorage.setItem("userId", res.data.userId);
+
+        navigate(0); // force refresh
+      }
     } catch (error) {
       console.log(error);
     }
@@ -122,24 +123,53 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
                 </button>
                 {login && (
                   <form onSubmit={loginHandler} className='flex flex-col gap-4'>
-                    <h1>Log In</h1>
+                    <h1 className='text-lg mb-2'>Log In</h1>
                     <input
-                      className='border-black shadow-md rounded-xl h-6 p-4 bg-gray-100'
+                      className={` border-black shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
+                        notify && "border-red-500 hover:border-red-500"
+                      } border-transparent placeholder:text-sm`}
                       type='text'
                       placeholder='Username'
                       value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      required
+                      onChange={(e) => {
+                        setUsername(e.target.value);
+                        setNotify("");
+                      }}
                     />
+                    {notify && (
+                      <div className='pl-4 text-sm text-red-500'>{notify}</div>
+                    )}
                     <input
-                      className='border-black shadow-md rounded-xl h-6 p-4 bg-gray-100'
+                      className={` border-black shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
+                        notify && "border-red-500 hover:border-red-500"
+                      } border-transparent placeholder:text-sm`}
                       placeholder='Password'
-                      type='text'
+                      type='password'
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        setNotify("");
+                      }}
                     />
-                    <button>Log In</button>
-                    <p>New to Reddit?</p>
-                    <p onClick={() => setLogin(false)}>Sign Up</p>
+                    <button className='bg-blue-600 text-white  rounded-lg hover:opacity-90 py-1  '>
+                      Log In
+                    </button>
+                    <p className='text-sm'>
+                      New to Reddit?
+                      <span
+                        className='text-sm text-blue-600 border-b-2 border-blue-600 cursor-pointer ml-1'
+                        onClick={() => {
+                          setLogin(false);
+                          setUsername("");
+                          setPassword("");
+                          setNotify("");
+                        }}
+                      >
+                        Sign Up
+                      </span>
+                    </p>
                   </form>
                 )}
                 {!login && (
@@ -147,31 +177,56 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
                     onSubmit={registerHandler}
                     className='flex flex-col gap-4'
                   >
-                    <h1>Sign Up</h1>
+                    <h1 className='text-lg'>Sign Up</h1>
                     <input
-                      className='border-black shadow-md rounded-xl h-6 p-4 bg-gray-100'
+                      className='border-black shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border border-transparent placeholder:text-sm'
                       type='text'
                       placeholder='Username'
                       value={username}
+                      required
                       onChange={(e) => setUsername(e.target.value)}
                     />
                     <input
-                      className='border-black shadow-md rounded-xl h-6 p-4 bg-gray-100'
+                      className={` border-black shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
+                        notify && "border-red-500 hover:border-red-500"
+                      } border-transparent placeholder:text-sm`}
                       placeholder='Password'
-                      type='text'
+                      type='password'
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        setNotify("");
+                      }}
                     />
                     <input
-                      className='border-black shadow-md rounded-xl h-6 p-4 bg-gray-100'
+                      className={` border-black shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
+                        notify && "border-red-500 hover:border-red-500"
+                      } border-transparent placeholder:text-sm`}
                       placeholder='Confirm Password'
-                      type='text'
+                      type='password'
                       value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      required
+                      onChange={(e) => {
+                        setConfirmPassword(e.target.value);
+                        setNotify("");
+                      }}
                     />
-                    <button>Log In</button>
-                    <p>Already have an account?</p>
-                    <p onClick={() => setLogin(true)}>Log In</p>
+                    {notify && (
+                      <div className='text-sm text-red-500'>{notify}</div>
+                    )}
+                    <button className='bg-blue-600 text-white  rounded-lg hover:opacity-90 py-1'>
+                      Sign up
+                    </button>
+                    <p className='text-sm'>
+                      Already have an account?{" "}
+                      <span
+                        className='text-sm text-blue-600 border-b-2 border-blue-600 cursor-pointer ml-1'
+                        onClick={() => setLogin(true)}
+                      >
+                        Log In
+                      </span>
+                    </p>
                   </form>
                 )}
               </div>

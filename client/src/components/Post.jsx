@@ -8,7 +8,7 @@ import {
   BsBookmark,
   BsBookmarkFill,
 } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
   const [savedPosts, setSavedPosts] = useState([]);
@@ -16,6 +16,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
   const [showNotify, setShowNotify] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
@@ -116,7 +117,12 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
       {post && savedPosts && (
         <div
           onClick={() => {
-            navigate(`${post.subcategory}/${post._id}`);
+            if (
+              location.pathname !==
+              `${post.subcategory.replace(/\s+/g, "")}/${post._id}`
+            ) {
+              navigate(`/${post.subcategory.replace(/\s+/g, "")}/${post._id}`);
+            }
           }}
           key={post._id}
           className='hover:border-gray-400  flex cursor-pointer mb-2  border-gray-200 border-2 bg-white md:w-[650px] md:mx-auto '
@@ -126,6 +132,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
             className='bg-gray-50 flex flex-col justify-start text-center p-2 '
           >
             <button
+              className='hover:bg-gray-200'
               onClick={() => {
                 voteHandler(post, "upvote");
               }}
@@ -133,11 +140,11 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
               {post.votedBy[
                 post.votedBy.findIndex((element) => element.user === userId)
               ]?.voteType === "upvote" && isLoggedIn ? (
-                <i className='text-2xl '>
+                <i className='text-2xl  '>
                   <BsCaretUpFill />
                 </i>
               ) : (
-                <i className='text-2xl '>
+                <i className='text-2xl  '>
                   <BsCaretUp />
                 </i>
               )}
@@ -145,6 +152,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
 
             <span className='font-semibold'> {post.vote} </span>
             <button
+              className='hover:bg-gray-200'
               onClick={() => {
                 voteHandler(post, "downvote");
               }}
@@ -169,24 +177,39 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
                   e.stopPropagation();
                   navigate(`/${post.subcategory}`);
                 }}
-                className='font-semibold text-sm pr-2'
+                className='font-semibold text-sm box-border border-b border-transparent hover:border-black'
               >
                 {post.subcategory}
               </p>
-              <p className='text-sm font-light'>Posted by {post.username}</p>
-              <p className='text-sm font-light'>{postDate(post)} </p>
+              <p className='text-sm font-light ml-1'>
+                Posted by {post.username}
+              </p>
+              <p className='text-sm font-light ml-1'>{postDate(post)} </p>
             </div>
             <p className='text-xl mt-1 mb-2'>{post.title}</p>
             <p className='font my-1'>{post.body}</p>
-            <div className='flex my-2 gap-3 opacity-80'>
-              <div className='flex' onClick={(e) => e.stopPropagation()}>
+            <div className='flex  gap-3 opacity-80'>
+              <div
+                className='flex hover:bg-gray-100 p-2'
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (
+                    location.pathname !==
+                    `${post.subcategory.replace(/\s+/g, "")}/${post._id}`
+                  ) {
+                    navigate(
+                      `/${post.subcategory.replace(/\s+/g, "")}/${post._id}`
+                    );
+                  }
+                }}
+              >
                 <i className='flex text-center justify-center items-center pr-1'>
                   <BsChatLeft />
                 </i>
                 <p>Comments</p>
               </div>
               <div
-                className='flex'
+                className='flex hover:bg-gray-100 p-2 '
                 onClick={(e) => {
                   e.stopPropagation();
                   saveHandler(post);

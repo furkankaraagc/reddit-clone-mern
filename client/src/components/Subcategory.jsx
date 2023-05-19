@@ -20,6 +20,9 @@ export const Subcategory = ({ setModal, isLoggedIn }) => {
     <div>
       <SideBar />
       <div className='pt-20 lg:ml-56 h-screen'>
+        <h1 className='md:w-[650px] md:mx-auto mb-2 text-xl font-semibold'>
+          r/{subcategory}
+        </h1>
         {posts.map((post) => (
           <Post
             post={post}

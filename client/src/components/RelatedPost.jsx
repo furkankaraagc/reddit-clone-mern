@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { Post } from "./Post";
 import { SideBar } from "./Sidebar";
 import axios from "axios";
+import { Comments } from "./Comments";
 
 export const RelatedPost = ({ setModal, isLoggedIn }) => {
   const { postId } = useParams();
-  console.log(postId);
   const [post, setPost] = useState("");
   useEffect(() => {
     fetchData();
@@ -18,14 +18,17 @@ export const RelatedPost = ({ setModal, isLoggedIn }) => {
   return (
     <div>
       <SideBar />
-      <div className='pt-20 lg:ml-56 h-screen'>
+      <div className='pt-20 lg:ml-56 h-screen '>
         {post && (
-          <Post
-            post={post}
-            setModal={setModal}
-            isLoggedIn={isLoggedIn}
-            fetchData={fetchData}
-          />
+          <div className='bg-gray-200'>
+            <Post
+              post={post}
+              setModal={setModal}
+              isLoggedIn={isLoggedIn}
+              fetchData={fetchData}
+            />
+            <Comments />
+          </div>
         )}
       </div>
     </div>

@@ -1,7 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer utilities {
   .my-input {
     @apply border;

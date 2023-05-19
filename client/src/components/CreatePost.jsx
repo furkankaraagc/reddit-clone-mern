@@ -78,7 +78,6 @@ export const CreatePost = () => {
           },
         }
       );
-      console.log(res);
       setNotify(res.data.message);
     } catch (error) {
       setNotify(error.response.data.message);

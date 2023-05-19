@@ -62,21 +62,22 @@ export const CreateSubcategory = () => {
         </div>
       )}
       <SideBar />
-      <div className='pt-20 lg:ml-56'>
-        <h1>Create Subcategory</h1>
+      <div className='pt-20 lg:ml-80 md:w-[650px] md:mx-auto h-full '>
+        <h1 className='mb-2'>Create a subcategory</h1>
         <Autocomplete
           focus={focusOne}
           refOne={refOne}
           topic={topic}
           setTopic={setTopic}
         />
-        <form onSubmit={submitHandler}>
+        <form className='flex flex-col gap-1' onSubmit={submitHandler}>
+          <p className='mt-2'>Name</p>
           <input
             onChange={(e) => setSubcategory(e.target.value)}
             type='text'
-            placeholder=''
+            placeholder='r/'
           />
-          <button>Create Subcategory</button>
+          <button className=' flex items-start'>Create Subcategory</button>
         </form>
       </div>
     </div>

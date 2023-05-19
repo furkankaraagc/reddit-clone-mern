@@ -1,32 +1,35 @@
 const mongoose = require("mongoose");
 
-const PostSchema = mongoose.Schema(
+const CommentSchema = mongoose.Schema(
   {
     username: { type: String, required: true },
-    title: { type: String, required: true },
     body: { type: String, required: true },
-    category: {
-      type: String,
-      required: true,
-    },
-    subcategory: {
-      type: String,
-      required: true,
-    },
+
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "UserModel",
     },
-    comments: [
+    post: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "PostModel",
+    },
+    parentComment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CommentModel",
+    },
+    subcomments: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "CommentModel",
       },
     ],
-
     vote: {
       type: Number,
       default: 0,
+    },
+    depth: {
+      type: Number,
+      default: 1,
     },
     votedBy: [
       {
@@ -46,6 +49,6 @@ const PostSchema = mongoose.Schema(
   }
 );
 
-const PostModel = mongoose.model("PostModel", PostSchema);
+const CommentModel = mongoose.model("CommentModel", CommentSchema);
 
-module.exports = PostModel;
+module.exports = CommentModel;
