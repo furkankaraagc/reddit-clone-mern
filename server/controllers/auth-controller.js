@@ -16,12 +16,12 @@ exports.register = async (req, res) => {
     await user.save();
     const token = jwt.sign({ id: user._id }, "123");
 
-    res.status(201).json({ success: true, token: token });
+    res.status(201).json({ success: true, token: token, user: user });
   } catch (error) {
     if (error.code === 11000) {
-      res.status(400).json("User already exists");
+      return res.status(400).json({ message: "User already exists" });
     }
-    res.status(500).json("Something went wrong");
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 exports.login = async (req, res) => {

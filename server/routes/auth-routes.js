@@ -13,6 +13,8 @@ const {
   getOneSubCategory,
   getSavedPosts,
   getSubmittedPosts,
+  getSearchedPost,
+  getPopular,
 } = require("../controllers/post-controller");
 const {
   createCategory,
@@ -35,6 +37,7 @@ router.post("/createSubcategory", protect, createSubcategory);
 router.post("/createComment", protect, createComment);
 
 router.get("/", getAllPosts);
+router.get("/posts/:sortType", getAllPosts);
 router.get("/categories", getAllCategories);
 router.get("/subcategories", getAllSubcategories);
 router.get("/user", protect, getUser);
@@ -42,7 +45,8 @@ router.get("/savedPosts", protect, getSavedPosts);
 router.get("/submittedPosts", protect, getSubmittedPosts);
 router.get("/post/:postId", getOnePost);
 router.get("/sub/:subcategory", getOneSubCategory);
-router.get("/comments/:postId", protect, getComments);
+router.get("/comments/:postId", getComments);
+router.get("/search/:query", getSearchedPost);
 
 router.put("/vote", protect, vote);
 router.put("/commentVote", protect, commentVote);

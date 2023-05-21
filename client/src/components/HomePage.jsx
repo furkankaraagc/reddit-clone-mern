@@ -5,11 +5,11 @@ import { SideBar } from "./Sidebar";
 import { Link } from "react-router-dom";
 import { BsPlusLg } from "react-icons/bs";
 
-export const HomePage = ({ isLoggedIn, modal, setModal }) => {
+export const HomePage = ({ isLoggedIn, modal, setModal, sort, setSort }) => {
   return (
-    <div className='flex h-auto  flex-col flex-grow lg:flex-row '>
+    <div className='flex h-auto bg-gray-200  flex-col flex-grow lg:flex-row  '>
       <SideBar />
-      <div className='flex flex-col flex-grow mt-10 md:ml-32 '>
+      <div className='flex flex-col flex-grow mt-10 md:ml-32 bg-gray-200 '>
         {isLoggedIn && (
           <Link to='/createPost'>
             <div className='flex h-11 bg-white  border-2 border-gray-200 md:w-[650px] md:m-auto'>
@@ -25,8 +25,13 @@ export const HomePage = ({ isLoggedIn, modal, setModal }) => {
           </Link>
         )}
 
-        <Filter />
-        <Posts isLoggedIn={isLoggedIn} modal={modal} setModal={setModal} />
+        <Posts
+          isLoggedIn={isLoggedIn}
+          modal={modal}
+          setModal={setModal}
+          sort={sort}
+          setSort={setSort}
+        />
       </div>
     </div>
   );

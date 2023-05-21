@@ -27,7 +27,7 @@ export const RelatedPost = ({ setModal, isLoggedIn }) => {
               isLoggedIn={isLoggedIn}
               fetchData={fetchData}
             />
-            <Comments />
+            <Comments setModal={setModal} />
           </div>
         )}
       </div>

@@ -14,11 +14,11 @@ export const AutocompleteSub = ({ refTwo, focus, topic, setSubcategory }) => {
   useEffect(() => {
     setValue("");
   }, [topic]);
+
   useEffect(() => {
     const filtredVar = data.filter(
-      (option) => option.category?.toLowerCase() === topic
+      (option) => option.category?.toLowerCase() === topic.toLowerCase()
     );
-
     setFiltred(
       filtredVar[0]?.subcategory.filter((element) =>
         element.toLowerCase().includes(value?.toLowerCase())

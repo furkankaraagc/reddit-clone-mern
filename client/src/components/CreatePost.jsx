@@ -9,16 +9,12 @@ export const CreatePost = () => {
   const refTwo = useRef(null);
 
   const [disabled, setDisabled] = useState(true);
-
   const [focusOne, setFocusOne] = useState(false);
   const [focusTwo, setFocusTwo] = useState(false);
-
   const [topic, setTopic] = useState("");
   const [subcategory, setSubcategory] = useState("");
-
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
   const [notify, setNotify] = useState("");
   const [showNotify, setShowNotify] = useState(false);
 
@@ -86,15 +82,17 @@ export const CreatePost = () => {
   return (
     <div onClick={handleCloseSearch} className='flex h-screen  '>
       {showNotify && (
-        <div className='absolute inset-0 flex justify-center items-end mb-3  '>
-          <div className='border-2 border-green-400 py-2 px-5'>{notify}</div>
+        <div className='fixed inset-x-0 bottom-0 flex justify-center items-end mb-6 z-50 '>
+          <div className='border-2 border-blue-500 py-2 px-5 bg-blue-50 text-lg  '>
+            {notify}
+          </div>
         </div>
       )}
       <SideBar />
       <div className='flex flex-col flex-grow mx-3 mt-10 lg:ml-56  '>
         <h1 className='text-xl mt-5 mb-3 mx-10'>Create post</h1>
-        <div className='mx-10 '>
-          <div className='flex lg:flex-col gap-5'>
+        <div className='mx-10'>
+          <div className='flex flex-col gap-5'>
             <Autocomplete
               focus={focusOne}
               refOne={refOne}
@@ -129,8 +127,8 @@ export const CreatePost = () => {
               disabled={disabled}
               className={
                 !disabled
-                  ? "cursor-pointer bg-orange-500 text-white py-1 "
-                  : "cursor-not-allowed bg-gray-400 inline-block text-white py-1"
+                  ? " bg-blue-600 text-white  rounded-lg mt-1 py-1 hover:opacity-90"
+                  : "cursor-not-allowed bg-gray-400 rounded-lg mt-1 py-1"
               }
             >
               Submit

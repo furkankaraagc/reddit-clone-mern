@@ -9,15 +9,45 @@ import {
   BsChatLeft,
 } from "react-icons/bs";
 
-export const Comment = ({ parentComment, comments, fetchComments }) => {
+export const Comment = ({
+  parentComment,
+  comments,
+  fetchComments,
+  setModal,
+}) => {
   const [isReply, setIsReply] = useState(false);
   const [comment, setComment] = useState("");
+  const [disabled, setDisabled] = useState(true);
+  const [notify, setNotify] = useState("");
+  const [showNotify, setShowNotify] = useState(false);
 
   const { postId } = useParams();
 
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
   const username = localStorage.getItem("username");
+
+  useEffect(() => {
+    if (comment) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [comment]);
+
+  useEffect(() => {
+    let timeoutId;
+    if (notify) {
+      setShowNotify(true);
+      timeoutId = setTimeout(() => {
+        setShowNotify(false);
+        setNotify("");
+      }, 1500);
+    }
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [notify]);
 
   const voteHandler = async (parentComment, voteType) => {
     if (!token) {
@@ -60,8 +90,11 @@ export const Comment = ({ parentComment, comments, fetchComments }) => {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
+    if (!token) {
+      return setModal(true);
+    }
 
-    await axios.post(
+    const res = await axios.post(
       "http://localhost:8000/createComment",
       {
         body: comment,
@@ -74,12 +107,20 @@ export const Comment = ({ parentComment, comments, fetchComments }) => {
         },
       }
     );
+    setNotify(res.data.message);
     setComment("");
     setIsReply(false);
     fetchComments();
   };
   return (
     <div className='flex flex-col border-l-2 border-gray-400  '>
+      {showNotify && (
+        <div className='fixed inset-x-0 bottom-0 flex justify-center items-end mb-6 z-50 '>
+          <div className='border-2 border-blue-500 py-2 px-5 bg-blue-50 text-lg  '>
+            {notify}
+          </div>
+        </div>
+      )}
       <div className='border-2 border-l-0 border-gray-400 flex p-1 mb-2'>
         <div
           onClick={(e) => e.stopPropagation()}
@@ -152,12 +193,20 @@ export const Comment = ({ parentComment, comments, fetchComments }) => {
         >
           <textarea
             onChange={(e) => setComment(e.target.value)}
+            value={comment}
             className='border-2 border-gray-200 p-2'
             cols='70'
             rows='5'
             placeholder='What are your thoughts'
           ></textarea>
-          <button className='bg-blue-700  text-white hover:opacity-90 shadow-lg'>
+          <button
+            disabled={disabled}
+            className={
+              !disabled
+                ? " bg-blue-600 text-white  rounded-lg mt-1 py-1 hover:opacity-90"
+                : "cursor-not-allowed bg-gray-400 rounded-lg mt-1 py-1"
+            }
+          >
             Reply
           </button>
         </form>

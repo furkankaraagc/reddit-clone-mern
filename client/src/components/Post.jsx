@@ -31,6 +31,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
       setShowNotify(true);
       timeoutId = setTimeout(() => {
         setShowNotify(false);
+        setNotify("");
       }, 1500);
     }
     return () => {
@@ -107,10 +108,12 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
   };
 
   return (
-    <div>
+    <div className=''>
       {showNotify && (
-        <div className='absolute inset-0 flex justify-center items-end mb-3  '>
-          <div className='border-2 border-green-400 py-2 px-5'>{notify}</div>
+        <div className='fixed inset-x-0 bottom-0 flex justify-center items-end mb-6 z-50 '>
+          <div className='border-2 border-blue-500 py-2 px-5 bg-blue-50 text-lg  '>
+            {notify}
+          </div>
         </div>
       )}
 
@@ -125,7 +128,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
             }
           }}
           key={post._id}
-          className='hover:border-gray-400  flex cursor-pointer mb-2  border-gray-200 border-2 bg-white md:w-[650px] md:mx-auto '
+          className='hover:border-gray-400  flex cursor-pointer mb-2  border-gray-200 border-2 bg-white md:w-[650px] md:mx-auto'
         >
           <div
             onClick={(e) => e.stopPropagation()}
@@ -206,7 +209,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
                 <i className='flex text-center justify-center items-center pr-1'>
                   <BsChatLeft />
                 </i>
-                <p>Comments</p>
+                <p>{post.comments.length} Comments</p>
               </div>
               <div
                 className='flex hover:bg-gray-100 p-2 '

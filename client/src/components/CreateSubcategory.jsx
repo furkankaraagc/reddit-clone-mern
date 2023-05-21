@@ -57,13 +57,15 @@ export const CreateSubcategory = () => {
   return (
     <div onClick={handleCloseSearch}>
       {showNotify && (
-        <div className='absolute inset-0 flex justify-center items-end mb-3  '>
-          <div className='border-2 border-green-400 py-2 px-5'>{notify}</div>
+        <div className='fixed inset-x-0 bottom-0 flex justify-center items-end mb-6 z-50 '>
+          <div className='border-2 border-blue-500 py-2 px-5 bg-blue-50 text-lg  '>
+            {notify}
+          </div>
         </div>
       )}
-      <SideBar />
+      <SideBar submitHandler={submitHandler} />
       <div className='pt-20 lg:ml-80 md:w-[650px] md:mx-auto h-full '>
-        <h1 className='mb-2'>Create a subcategory</h1>
+        <h1 className='mb-2 text-lg font-medium'>Create a subcategory</h1>
         <Autocomplete
           focus={focusOne}
           refOne={refOne}
@@ -73,11 +75,17 @@ export const CreateSubcategory = () => {
         <form className='flex flex-col gap-1' onSubmit={submitHandler}>
           <p className='mt-2'>Name</p>
           <input
+            className='py-1 px-2 hover:border-gray-400 border'
             onChange={(e) => setSubcategory(e.target.value)}
             type='text'
             placeholder='r/'
+            required
           />
-          <button className=' flex items-start'>Create Subcategory</button>
+          <div className=' flex items-end '>
+            <button className='bg-blue-600 text-white  rounded-lg hover:opacity-90 px-2 py-1'>
+              Create Subcategory
+            </button>
+          </div>
         </form>
       </div>
     </div>

@@ -1,4 +1,5 @@
 const CommentModel = require("../models/CommentModel");
+const PostModel = require("../models/PostModel");
 
 exports.createComment = async (req, res) => {
   const { username, _id } = req.user;
@@ -6,7 +7,7 @@ exports.createComment = async (req, res) => {
   try {
     if (parentCommentId) {
       const parentComment = await CommentModel.findById(parentCommentId);
-
+      const relatedPost = await PostModel.findById(post);
       const newSubcomment = await new CommentModel({
         body,
         post,
@@ -16,7 +17,12 @@ exports.createComment = async (req, res) => {
         depth: parentComment.depth + 1,
       });
       const savedSubcomment = await newSubcomment.save();
+
       parentComment.subcomments.push(newSubcomment);
+      relatedPost.comments.push(newSubcomment._id);
+
+      await relatedPost.save();
+
       await parentComment.save();
       res
         .status(201)
@@ -24,6 +30,7 @@ exports.createComment = async (req, res) => {
       return;
     }
 
+    const relatedPost = await PostModel.findById(post);
     const comment = await new CommentModel({
       body,
       post,
@@ -31,7 +38,9 @@ exports.createComment = async (req, res) => {
       username,
       parentComment: null,
     });
+    relatedPost.comments.push(comment._id);
 
+    await relatedPost.save();
     await comment.save();
     res.status(201).json({ message: "Comment created successfully" });
   } catch (error) {

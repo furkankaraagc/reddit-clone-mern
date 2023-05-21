@@ -1,8 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
+export const User = ({
+  isLoggedIn,
+  setIsLoggedIn,
+  modal,
+  setModal,
+  refOne,
+  focusOne,
+}) => {
   const [dropDown, setDropDown] = useState(false);
   const [login, setLogin] = useState(true);
   const [username, setUsername] = useState("");
@@ -15,7 +22,6 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setIsLoggedIn(true);
-      navigate("/");
     }
   }, []);
 
@@ -53,13 +59,13 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
 
       if (res.data.success === true) {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("username", res.data.username);
-        localStorage.setItem("userId", res.data.userId);
+        localStorage.setItem("username", res.data.user.username);
+        localStorage.setItem("userId", res.data.user._id);
 
         navigate(0); // force refresh
       }
     } catch (error) {
-      console.log(error);
+      setNotify(error.response.data.message);
     }
   };
 
@@ -67,37 +73,42 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
     <>
       <div>
         <div className='relative inline-block'>
-          <p className='cursor-pointer' onClick={() => setDropDown(!dropDown)}>
+          <p
+            ref={refOne}
+            className='cursor-pointer p-1 text-lg'
+            onClick={() => setDropDown(!dropDown)}
+          >
             {isLoggedIn ? localStorage.getItem("username") : "User Profie"}
           </p>
-          {dropDown && (
-            <div className='z-10 bg-white  border shadow-lg p-4 w-48 right-5  absolute'>
+          {focusOne && (
+            <div className=' bg-white  border shadow-lg p-4 w-48 right-5  absolute z-50'>
               {isLoggedIn ? (
-                <>
+                <div>
                   <div
-                    className='cursor-pointer'
+                    className='cursor-pointer hover:bg-gray-200 p-1'
                     onClick={() => navigate("/savedPosts")}
                   >
                     Saved Posts
                   </div>
                   <div
-                    className='cursor-pointer'
+                    className='cursor-pointer hover:bg-gray-200 p-1'
                     onClick={() => navigate("/submittedPosts")}
                   >
                     Your Posts
                   </div>
                   <div
-                    className='cursor-pointer'
+                    className='cursor-pointer hover:bg-gray-200 p-1 '
                     onClick={() => {
                       localStorage.removeItem("token");
                       localStorage.removeItem("username");
                       localStorage.removeItem("userId");
+                      navigate("/");
                       navigate(0);
                     }}
                   >
                     Log Out
                   </div>
-                </>
+                </div>
               ) : (
                 <div
                   onClick={() => {
@@ -105,7 +116,7 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
                     setDropDown(false);
                     setLogin(true);
                   }}
-                  className='cursor-pointer'
+                  className='cursor-pointer hover:bg-gray-200 p-1'
                 >
                   Log In / Sign Up
                 </div>
@@ -125,9 +136,9 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
                   <form onSubmit={loginHandler} className='flex flex-col gap-4'>
                     <h1 className='text-lg mb-2'>Log In</h1>
                     <input
-                      className={` border-black shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
-                        notify && "border-red-500 hover:border-red-500"
-                      } border-transparent placeholder:text-sm`}
+                      className={` shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
+                        notify && "border border-red-500 hover:border-red-500 "
+                      }  placeholder:text-sm`}
                       type='text'
                       placeholder='Username'
                       value={username}
@@ -141,9 +152,9 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
                       <div className='pl-4 text-sm text-red-500'>{notify}</div>
                     )}
                     <input
-                      className={` border-black shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
+                      className={` shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
                         notify && "border-red-500 hover:border-red-500"
-                      } border-transparent placeholder:text-sm`}
+                      }  placeholder:text-sm`}
                       placeholder='Password'
                       type='password'
                       value={password}
@@ -153,7 +164,7 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
                         setNotify("");
                       }}
                     />
-                    <button className='bg-blue-600 text-white  rounded-lg hover:opacity-90 py-1  '>
+                    <button className='bg-blue-600 text-white  rounded-lg hover:opacity-90 py-1'>
                       Log In
                     </button>
                     <p className='text-sm'>
@@ -179,7 +190,11 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
                   >
                     <h1 className='text-lg'>Sign Up</h1>
                     <input
-                      className='border-black shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border border-transparent placeholder:text-sm'
+                      className={` shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border placeholder:text-sm ${
+                        notify === "User already exists"
+                          ? "border-red-500 hover:border-red-500"
+                          : ""
+                      }`}
                       type='text'
                       placeholder='Username'
                       value={username}
@@ -187,9 +202,11 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
                       onChange={(e) => setUsername(e.target.value)}
                     />
                     <input
-                      className={` border-black shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
-                        notify && "border-red-500 hover:border-red-500"
-                      } border-transparent placeholder:text-sm`}
+                      className={` shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
+                        notify === "Password do not match"
+                          ? "border-red-500 hover:border-red-500"
+                          : ""
+                      }  placeholder:text-sm`}
                       placeholder='Password'
                       type='password'
                       value={password}
@@ -200,9 +217,11 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
                       }}
                     />
                     <input
-                      className={` border-black shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
-                        notify && "border-red-500 hover:border-red-500"
-                      } border-transparent placeholder:text-sm`}
+                      className={`  shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
+                        notify === "Password do not match"
+                          ? "border-red-500 hover:border-red-500"
+                          : ""
+                      }  placeholder:text-sm`}
                       placeholder='Confirm Password'
                       type='password'
                       value={confirmPassword}
@@ -219,10 +238,15 @@ export const User = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
                       Sign up
                     </button>
                     <p className='text-sm'>
-                      Already have an account?{" "}
+                      Already have an account?
                       <span
                         className='text-sm text-blue-600 border-b-2 border-blue-600 cursor-pointer ml-1'
-                        onClick={() => setLogin(true)}
+                        onClick={() => {
+                          setLogin(true);
+                          setPassword("");
+                          setConfirmPassword("");
+                          setUsername("");
+                        }}
                       >
                         Log In
                       </span>

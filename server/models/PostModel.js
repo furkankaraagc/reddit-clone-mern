@@ -23,7 +23,9 @@ const PostSchema = mongoose.Schema(
         ref: "CommentModel",
       },
     ],
-
+    commentCount: {
+      type: Number,
+    },
     vote: {
       type: Number,
       default: 0,

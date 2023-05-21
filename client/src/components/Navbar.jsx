@@ -1,16 +1,53 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { User } from "../components/User";
+import { useState } from "react";
+import axios from "axios";
+import { BsSearch } from "react-icons/bs";
 
-export const Navbar = ({ isLoggedIn, setIsLoggedIn, modal, setModal }) => {
+export const Navbar = ({
+  isLoggedIn,
+  setIsLoggedIn,
+  modal,
+  setModal,
+  refOne,
+  focusOne,
+}) => {
+  const [searchInput, setSearchInput] = useState("");
+  const navigate = useNavigate();
+
+  const submitHandler = async (e) => {
+    if (!searchInput) {
+      return;
+    }
+    e.preventDefault();
+    navigate(`search/${searchInput}`);
+    setSearchInput("");
+  };
   return (
     <nav className='h-11 bg-white flex justify-between px-3  items-center border-2 border-gray-200 fixed w-full z-10'>
-      <Link to='/'>Reddit</Link>
-      <input
-        type='text'
-        placeholder='Search'
-        className='border-black shadow-md rounded-xl h-6 p-4 bg-gray-100 '
-      />
+      <Link className='text-lg' to='/'>
+        Reddit
+      </Link>
+      <form onSubmit={submitHandler}>
+        <div className='flex '>
+          <input
+            type='text'
+            value={searchInput}
+            placeholder='Search'
+            onChange={(e) => setSearchInput(e.target.value)}
+            className=' shadow-md  rounded-s-xl h-6 p-4 bg-gray-100 '
+          />
+          <button className=' shadow-md bg-gray-100 h-6 p-4 flex items-center'>
+            <i>
+              <BsSearch />
+            </i>
+          </button>
+        </div>
+      </form>
+
       <User
+        focusOne={focusOne}
+        refOne={refOne}
         isLoggedIn={isLoggedIn}
         setIsLoggedIn={setIsLoggedIn}
         modal={modal}
