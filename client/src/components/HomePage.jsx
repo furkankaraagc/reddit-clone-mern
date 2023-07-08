@@ -1,11 +1,9 @@
-import { CreatePost } from "./CreatePost";
-import { Filter } from "./Filter";
 import { Posts } from "./Posts";
 import { SideBar } from "./Sidebar";
 import { Link } from "react-router-dom";
-import { BsPlusLg } from "react-icons/bs";
+import AddSharpIcon from "@mui/icons-material/AddSharp";
 
-export const HomePage = ({ isLoggedIn, modal, setModal, sort, setSort }) => {
+const HomePage = ({ isLoggedIn, modal, setModal, sort, setSort }) => {
   return (
     <div className='flex h-auto bg-gray-200  flex-col flex-grow lg:flex-row  '>
       <SideBar />
@@ -14,7 +12,7 @@ export const HomePage = ({ isLoggedIn, modal, setModal, sort, setSort }) => {
           <Link to='/createPost'>
             <div className='flex h-11 bg-white  border-2 border-gray-200 md:w-[650px] md:m-auto'>
               <i className='flex justify-center items-center p-3'>
-                <BsPlusLg />
+                <AddSharpIcon />
               </i>
               <input
                 type='text'
@@ -36,3 +34,4 @@ export const HomePage = ({ isLoggedIn, modal, setModal, sort, setSort }) => {
     </div>
   );
 };
+export default HomePage;

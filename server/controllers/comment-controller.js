@@ -127,3 +127,25 @@ exports.commentVote = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+exports.deleteComment = async (req, res) => {
+  const { commentId, postId } = req.body;
+  try {
+    const subcommentDelete = async (x) => {
+      const data = await CommentModel.findById({ _id: x });
+      for (let i = data.subcomments.length - 1; i >= 0; i--) {
+        const subcommentId = data.subcomments[i];
+        await subcommentDelete(subcommentId);
+      }
+      console.log(x);
+      console.log(postId);
+
+      await PostModel.updateOne({ _id: postId }, { $pull: { comments: x } });
+      await CommentModel.deleteOne({ _id: x });
+    };
+    await subcommentDelete(commentId);
+
+    return res.status(200).json({ message: "Comment deleted successfully" });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { SideBar } from "./Sidebar";
 import { Post } from "./Post";
 
-export const SubmittedPosts = ({ setModal, isLoggedIn }) => {
+const SubmittedPosts = ({ setModal, isLoggedIn }) => {
   const [posts, setPosts] = useState([]);
 
   const token = localStorage.getItem("token");
@@ -34,9 +34,11 @@ export const SubmittedPosts = ({ setModal, isLoggedIn }) => {
             setModal={setModal}
             isLoggedIn={isLoggedIn}
             fetchData={fetchData}
+            isSubmit='true'
           />
         ))}
       </div>
     </div>
   );
 };
+export default SubmittedPosts;

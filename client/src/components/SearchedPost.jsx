@@ -4,7 +4,7 @@ import { SideBar } from "./Sidebar";
 import { Post } from "./Post";
 import { useParams } from "react-router-dom";
 
-export const SearchedPost = ({ setModal, isLoggedIn }) => {
+const SearchedPost = ({ setModal, isLoggedIn }) => {
   const { query } = useParams();
   const [posts, setPosts] = useState([]);
   const [notify, setNotify] = useState("");
@@ -47,3 +47,4 @@ export const SearchedPost = ({ setModal, isLoggedIn }) => {
     </div>
   );
 };
+export default SearchedPost;

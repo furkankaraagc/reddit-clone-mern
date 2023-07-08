@@ -1,8 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "../components/User";
 import { useState } from "react";
-import axios from "axios";
-import { BsSearch } from "react-icons/bs";
+import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 
 export const Navbar = ({
   isLoggedIn,
@@ -39,7 +38,7 @@ export const Navbar = ({
           />
           <button className=' shadow-md bg-gray-100 h-6 p-4 flex items-center'>
             <i>
-              <BsSearch />
+              <SearchSharpIcon />
             </i>
           </button>
         </div>

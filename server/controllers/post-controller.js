@@ -40,6 +40,21 @@ exports.createPost = async (req, res) => {
     });
   }
 };
+exports.deletePost = async (req, res) => {
+  const { postId } = req.body;
+  try {
+    const post = await PostModel.findById({ _id: postId });
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+    if (post) {
+      await PostModel.deleteOne({ _id: postId });
+      return res.status(200).json({ message: "Post deleted successfully" });
+    }
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
 exports.getAllPosts = async (req, res) => {
   const { sortType } = req.params;
 
@@ -149,9 +164,8 @@ exports.savePost = async (req, res) => {
     }
     user.savedPosts.push(postId);
     await user.save();
-    res.status(200).json({ user, message: "Post saved" });
+    res.status(200).json({ message: "Post saved" });
   } catch (error) {
-    console.log(error.message);
     res.status(400).json({ message: error.message });
   }
 };

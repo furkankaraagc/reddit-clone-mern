@@ -15,6 +15,7 @@ const {
   getSubmittedPosts,
   getSearchedPost,
   getPopular,
+  deletePost,
 } = require("../controllers/post-controller");
 const {
   createCategory,
@@ -27,6 +28,7 @@ const {
   createComment,
   getComments,
   commentVote,
+  deleteComment,
 } = require("../controllers/comment-controller");
 
 router.post("/login", login);
@@ -47,6 +49,9 @@ router.get("/post/:postId", getOnePost);
 router.get("/sub/:subcategory", getOneSubCategory);
 router.get("/comments/:postId", getComments);
 router.get("/search/:query", getSearchedPost);
+
+router.delete("/deletePost", protect, deletePost);
+router.put("/deleteComment", protect, deleteComment);
 
 router.put("/vote", protect, vote);
 router.put("/commentVote", protect, commentVote);

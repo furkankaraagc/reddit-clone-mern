@@ -3,10 +3,15 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Comment } from "./Comment";
 
-export const Comments = ({ setModal }) => {
+export const Comments = ({
+  setModal,
+  comments,
+  setComments,
+  fetchComments,
+}) => {
   const { postId } = useParams();
 
-  const [comments, setComments] = useState([]);
+  // const [comments, setComments] = useState([]);
   const [parentInput, setParentInput] = useState("");
   const [parentCommentId, setParentCommentId] = useState("");
   const [disabled, setDisabled] = useState(true);
@@ -42,14 +47,14 @@ export const Comments = ({ setModal }) => {
 
   const parentComments = comments.filter((comment) => !comment.parentComment);
 
-  const fetchComments = async () => {
-    const res = await axios.get(`http://localhost:8000/comments/${postId}`, {
-      headers: {
-        Authorization: token,
-      },
-    });
-    setComments(res.data);
-  };
+  // const fetchComments = async () => {
+  //   const res = await axios.get(`http://localhost:8000/comments/${postId}`, {
+  //     headers: {
+  //       Authorization: token,
+  //     },
+  //   });
+  //   setComments(res.data);
+  // };
   const submitHandler = async (e) => {
     e.preventDefault();
     if (!token) {

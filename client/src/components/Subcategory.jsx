@@ -4,7 +4,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Post } from "./Post";
 
-export const Subcategory = ({ setModal, isLoggedIn }) => {
+const Subcategory = ({ setModal, isLoggedIn }) => {
   const [posts, setPosts] = useState([]);
   const { subcategory } = useParams();
 
@@ -35,3 +35,4 @@ export const Subcategory = ({ setModal, isLoggedIn }) => {
     </div>
   );
 };
+export default Subcategory;

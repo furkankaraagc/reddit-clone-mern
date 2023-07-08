@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BsSearch } from "react-icons/bs";
+import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import axios from "axios";
 
 export const Autocomplete = ({ focus, topic, setTopic, refOne }) => {
@@ -42,7 +42,7 @@ export const Autocomplete = ({ focus, topic, setTopic, refOne }) => {
     <div className='relative'>
       <div className='relative flex items-center'>
         <i className='absolute p-2'>
-          <BsSearch />
+          <SearchSharpIcon />
         </i>
 
         <input

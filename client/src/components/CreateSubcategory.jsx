@@ -3,7 +3,7 @@ import { SideBar } from "./Sidebar";
 import { Autocomplete } from "./Autocomplete";
 import axios from "axios";
 
-export const CreateSubcategory = () => {
+const CreateSubcategory = () => {
   const refOne = useRef(null);
   const [topic, setTopic] = useState("");
   const [subcategory, setSubcategory] = useState(false);
@@ -91,3 +91,4 @@ export const CreateSubcategory = () => {
     </div>
   );
 };
+export default CreateSubcategory;

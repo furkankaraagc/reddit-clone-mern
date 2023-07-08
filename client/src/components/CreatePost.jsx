@@ -4,7 +4,7 @@ import { Autocomplete } from "./Autocomplete";
 import { AutocompleteSub } from "./AutocompleteSub";
 import axios from "axios";
 
-export const CreatePost = () => {
+const CreatePost = () => {
   const refOne = useRef(null);
   const refTwo = useRef(null);
 
@@ -139,3 +139,4 @@ export const CreatePost = () => {
     </div>
   );
 };
+export default CreatePost;

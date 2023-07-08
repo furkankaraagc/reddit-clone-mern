@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import {
-  BsCaretDown,
-  BsCaretUp,
-  BsCaretDownFill,
-  BsCaretUpFill,
-  BsChatLeft,
-  BsBookmark,
-  BsBookmarkFill,
-} from "react-icons/bs";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
-export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
+import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
+import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import HighlightOffSharpIcon from "@mui/icons-material/HighlightOffSharp";
+
+export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
   const [savedPosts, setSavedPosts] = useState([]);
   const [notify, setNotify] = useState("");
   const [showNotify, setShowNotify] = useState(false);
@@ -106,9 +107,25 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
 
     fetchData();
   };
+  const deleteHandler = async (post) => {
+    await fetch("http://localhost:8000/deletePost", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify({
+        postId: post._id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => setNotify(data.message));
+
+    fetchData();
+  };
 
   return (
-    <div className=''>
+    <div className='x'>
       {showNotify && (
         <div className='fixed inset-x-0 bottom-0 flex justify-center items-end mb-6 z-50 '>
           <div className='border-2 border-blue-500 py-2 px-5 bg-blue-50 text-lg  '>
@@ -128,7 +145,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
             }
           }}
           key={post._id}
-          className='hover:border-gray-400  flex cursor-pointer mb-2  border-gray-200 border-2 bg-white md:w-[650px] md:mx-auto'
+          className=' hover:border-gray-400  flex justify-start  cursor-pointer mb-2  border-gray-200 border-2 bg-white md:w-[650px] md:mx-auto'
         >
           <div
             onClick={(e) => e.stopPropagation()}
@@ -144,11 +161,11 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
                 post.votedBy.findIndex((element) => element.user === userId)
               ]?.voteType === "upvote" && isLoggedIn ? (
                 <i className='text-2xl  '>
-                  <BsCaretUpFill />
+                  <ThumbUpIcon />
                 </i>
               ) : (
                 <i className='text-2xl  '>
-                  <BsCaretUp />
+                  <ThumbUpOutlinedIcon />
                 </i>
               )}
             </button>
@@ -164,11 +181,11 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
                 post.votedBy.findIndex((element) => element.user === userId)
               ]?.voteType === "downvote" && isLoggedIn ? (
                 <i className='text-2xl '>
-                  <BsCaretDownFill />
+                  <ThumbDownIcon />
                 </i>
               ) : (
                 <i className='text-2xl '>
-                  <BsCaretDown />
+                  <ThumbDownOutlinedIcon />
                 </i>
               )}
             </button>
@@ -207,7 +224,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
                 }}
               >
                 <i className='flex text-center justify-center items-center pr-1'>
-                  <BsChatLeft />
+                  <ChatBubbleOutlineOutlinedIcon />
                 </i>
                 <p>{post.comments.length} Comments</p>
               </div>
@@ -221,14 +238,14 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
                 {savedPosts && savedPosts.includes(post._id) ? (
                   <>
                     <i className='flex text-center justify-center items-center pr-1'>
-                      <BsBookmarkFill />
+                      <BookmarkIcon />
                     </i>
                     <p>Unsave</p>
                   </>
                 ) : (
                   <>
                     <i className='flex text-center justify-center items-center pr-1'>
-                      <BsBookmark />
+                      <BookmarkBorderOutlinedIcon />
                     </i>
                     <p>Save</p>
                   </>
@@ -236,6 +253,19 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData }) => {
               </div>
             </div>
           </section>
+          {isSubmit && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteHandler(post);
+              }}
+              className='ml-auto w-10 bg-red-600 flex justify-center items-center '
+            >
+              <i className='opacity-75'>
+                <HighlightOffSharpIcon />
+              </i>
+            </button>
+          )}
         </div>
       )}
     </div>

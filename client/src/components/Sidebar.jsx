@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { BsPlusLg } from "react-icons/bs";
+import KeyboardArrowDownSharpIcon from "@mui/icons-material/KeyboardArrowDownSharp";
+import KeyboardArrowUpSharpIcon from "@mui/icons-material/KeyboardArrowUpSharp";
+import AddSharpIcon from "@mui/icons-material/AddSharp";
 
 export const SideBar = ({ submitHandler }) => {
   const [topics, setTopics] = useState([]);
@@ -32,7 +33,11 @@ export const SideBar = ({ submitHandler }) => {
               {data.category}
             </p>
             <i className='text-2xl cursor-pointer  '>
-              {isExpanded ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
+              {isExpanded ? (
+                <KeyboardArrowUpSharpIcon />
+              ) : (
+                <KeyboardArrowDownSharpIcon />
+              )}
             </i>
           </div>
         ) : (
@@ -58,7 +63,7 @@ export const SideBar = ({ submitHandler }) => {
       {token && (
         <div className='flex items-center gap-1 mb-2 p-1 hover:bg-gray-100'>
           <i className=''>
-            <BsPlusLg />
+            <AddSharpIcon />
           </i>
           <button onClick={() => navigate("/createSubcategory")}>
             Create Subcategory

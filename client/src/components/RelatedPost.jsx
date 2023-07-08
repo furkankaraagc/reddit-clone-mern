@@ -5,12 +5,27 @@ import { SideBar } from "./Sidebar";
 import axios from "axios";
 import { Comments } from "./Comments";
 
-export const RelatedPost = ({ setModal, isLoggedIn }) => {
+const RelatedPost = ({ setModal, isLoggedIn }) => {
   const { postId } = useParams();
+
   const [post, setPost] = useState("");
+  const [comments, setComments] = useState([]);
+
+  const token = localStorage.getItem("token");
+
+  const fetchComments = async () => {
+    const res = await axios.get(`http://localhost:8000/comments/${postId}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    setComments(res.data);
+  };
+
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [comments]);
+
   const fetchData = async () => {
     const res = await axios.get(`http://localhost:8000/post/${postId}`);
     setPost(res.data);
@@ -27,10 +42,16 @@ export const RelatedPost = ({ setModal, isLoggedIn }) => {
               isLoggedIn={isLoggedIn}
               fetchData={fetchData}
             />
-            <Comments setModal={setModal} />
+            <Comments
+              setModal={setModal}
+              comments={comments}
+              setComments={setComments}
+              fetchComments={fetchComments}
+            />
           </div>
         )}
       </div>
     </div>
   );
 };
+export default RelatedPost;

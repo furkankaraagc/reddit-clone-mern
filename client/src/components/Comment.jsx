@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import {
-  BsCaretDown,
-  BsCaretUp,
-  BsCaretDownFill,
-  BsCaretUpFill,
-  BsChatLeft,
-} from "react-icons/bs";
+
+import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
+import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
 
 export const Comment = ({
   parentComment,
@@ -64,6 +64,20 @@ export const Comment = ({
         voteType: voteType,
       }),
     }).then((res) => res.json());
+
+    fetchComments();
+  };
+  const deleteHandler = async () => {
+    await fetch("http://localhost:8000/deleteComment", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", Authorization: token },
+      body: JSON.stringify({
+        commentId: parentComment._id,
+        postId: postId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => setNotify(data.message));
 
     fetchComments();
   };
@@ -138,11 +152,11 @@ export const Comment = ({
               )
             ]?.voteType === "upvote" && token ? (
               <i className='text-2xl  '>
-                <BsCaretUpFill />
+                <ThumbUpIcon />
               </i>
             ) : (
               <i className='text-2xl  '>
-                <BsCaretUp />
+                <ThumbUpOutlinedIcon />
               </i>
             )}
           </button>
@@ -160,11 +174,11 @@ export const Comment = ({
               )
             ]?.voteType === "downvote" && token ? (
               <i className='text-2xl '>
-                <BsCaretDownFill />
+                <ThumbDownIcon />
               </i>
             ) : (
               <i className='text-2xl '>
-                <BsCaretDown />
+                <ThumbDownOutlinedIcon />
               </i>
             )}
           </button>
@@ -175,15 +189,31 @@ export const Comment = ({
             <div className='text-gray-600 text-sm '>{commentDate()}</div>
           </div>
           <div>{parentComment.body}</div>
-          <div
-            onClick={() => setIsReply(!isReply)}
-            className='flex mt-2 cursor-pointer hover:bg-gray-200 px-2 py-1 w-20 '
-          >
-            <i className='flex text-center justify-center items-center pr-1'>
-              <BsChatLeft />
-            </i>
-            <button className='text-gray-600'>Reply</button>
-          </div>
+          <section className='flex'>
+            <div
+              onClick={() => setIsReply(!isReply)}
+              className='flex mt-2 cursor-pointer hover:bg-gray-200 px-2 py-1 w-20 '
+            >
+              <div className='flex text-center justify-center items-center pr-1'>
+                <i>
+                  <ChatBubbleOutlineOutlinedIcon />
+                </i>
+                <button className='text-gray-600'>Reply</button>
+              </div>
+            </div>
+
+            <div
+              onClick={deleteHandler}
+              className='flex mt-2 cursor-pointer hover:bg-gray-200 px-2 py-1 w-20 '
+            >
+              <div className='flex text-center justify-center items-center pr-1'>
+                <i>
+                  <DeleteSharpIcon />
+                </i>
+                <button className='text-gray-600'>Delete</button>
+              </div>
+            </div>
+          </section>
         </div>
       </div>
       {isReply && (
