@@ -1,20 +1,20 @@
 const router = require('./routes/auth-routes');
 const mongoose = require('mongoose');
 const express = require('express');
-const app = express();
+const dotenv = require('dotenv');
+
+dotenv.config({ path: './.env' });
 const cookieParser = require('cookie-parser');
-app.use(cookieParser());
-
 const cors = require('cors');
-app.use(express.json());
 
+const app = express();
+app.use(cookieParser());
+app.use(express.json());
 app.use(cors());
 app.use(router);
 
 const uri = mongoose
-  .connect(
-    'mongodb+srv://admin:D9K694zwkLtahk3C@cluster0.8cstnug.mongodb.net/?retryWrites=true&w=majority',
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log('db started'));
 
 app.listen(8000, () => {
