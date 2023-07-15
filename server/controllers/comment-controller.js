@@ -130,15 +130,17 @@ exports.commentVote = async (req, res) => {
 exports.deleteComment = async (req, res) => {
   const { commentId, postId } = req.body;
   try {
+    if (typeof commentId !== "string") {
+      await CommentModel.deleteMany({ post: postId });
+      return res.status(200).json({ message: "Comment deleted successfully" });
+    }
+
     const subcommentDelete = async (x) => {
       const data = await CommentModel.findById({ _id: x });
       for (let i = data.subcomments.length - 1; i >= 0; i--) {
         const subcommentId = data.subcomments[i];
         await subcommentDelete(subcommentId);
       }
-      console.log(x);
-      console.log(postId);
-
       await PostModel.updateOne({ _id: postId }, { $pull: { comments: x } });
       await CommentModel.deleteOne({ _id: x });
     };

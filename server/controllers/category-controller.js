@@ -1,4 +1,4 @@
-const CategoryModel = require("../models/CategoryModel");
+const CategoryModel = require('../models/CategoryModel');
 
 exports.createCategory = async (req, res) => {
   let { category } = req.body;
@@ -8,7 +8,7 @@ exports.createCategory = async (req, res) => {
     if (isCategoryExist !== null) {
       return res
         .status(500)
-        .json({ error: "There is already a category with this name" });
+        .json({ error: 'There is already a category with this name' });
     }
     category = category.charAt(0).toUpperCase() + category.slice(1);
 
@@ -18,9 +18,9 @@ exports.createCategory = async (req, res) => {
     await newCategory.save();
     res
       .status(201)
-      .json({ success: true, message: "Category created successfully" });
+      .json({ success: true, message: 'Category created successfully' });
   } catch (error) {
-    res.status(500).json({ error: "Failed to create category" });
+    res.status(500).json({ error: error.message });
   }
 };
 exports.createSubcategory = async (req, res) => {
@@ -29,22 +29,22 @@ exports.createSubcategory = async (req, res) => {
   try {
     const existingCategory = await CategoryModel.findOne({ category });
     if (!existingCategory) {
-      return res.status(404).json({ message: "Category not found" });
+      return res.status(404).json({ message: 'Category not found' });
     }
     const existingSubCategory = await CategoryModel.findOne({ subcategory });
     if (existingSubCategory !== null) {
       return res
         .status(500)
-        .json({ message: "There is already a subcategory with this name" });
+        .json({ message: 'There is already a subcategory with this name' });
     }
 
     existingCategory.subcategory.push(subcategory);
     await existingCategory.save();
-    res.status(200).json({ message: "Subcategory created successfully" });
+    res.status(200).json({ message: 'Subcategory created successfully' });
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Failed to create subcategory", error: error.message });
+      .json({ message: 'Failed to create subcategory', error: error.message });
   }
 };
 exports.getAllCategories = async (req, res) => {

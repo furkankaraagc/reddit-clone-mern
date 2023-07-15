@@ -1,6 +1,6 @@
-const CategoryModel = require("../models/CategoryModel");
-const PostModel = require("../models/PostModel");
-const UserModel = require("../models/UserModel");
+const CategoryModel = require('../models/CategoryModel');
+const PostModel = require('../models/PostModel');
+const UserModel = require('../models/UserModel');
 
 exports.createPost = async (req, res) => {
   const { body, category, subcategory, title } = req.body;
@@ -32,11 +32,11 @@ exports.createPost = async (req, res) => {
 
     res
       .status(201)
-      .json({ success: true, message: "Post created successfully" });
+      .json({ success: true, message: 'Post created successfully' });
   } catch (error) {
     res.status(500).json({
       error: error.message,
-      message: "There is no category or subcategory like this",
+      message: 'There is no category or subcategory like this',
     });
   }
 };
@@ -45,11 +45,11 @@ exports.deletePost = async (req, res) => {
   try {
     const post = await PostModel.findById({ _id: postId });
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      return res.status(404).json({ message: 'Post not found' });
     }
     if (post) {
       await PostModel.deleteOne({ _id: postId });
-      return res.status(200).json({ message: "Post deleted successfully" });
+      return res.status(200).json({ message: 'Post deleted successfully' });
     }
   } catch (error) {
     return res.status(400).json({ message: error.message });
@@ -59,7 +59,7 @@ exports.getAllPosts = async (req, res) => {
   const { sortType } = req.params;
 
   try {
-    if (sortType === "popular") {
+    if (sortType === 'popular') {
       const posts = await PostModel.find().sort({ vote: -1 });
       return res.status(200).json(posts);
     }
@@ -72,7 +72,6 @@ exports.getAllPosts = async (req, res) => {
 exports.getPopular = async (req, res) => {
   try {
     const { sortType } = req.params;
-    console.log(sortType);
     const posts = await PostModel.find().sort({ createdAt: -1 });
     res.status(200).json(posts);
   } catch (error) {
@@ -87,18 +86,18 @@ exports.vote = async (req, res) => {
     const post = await PostModel.findById({ _id: postId });
 
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      return res.status(404).json({ message: 'Post not found' });
     }
 
     const alreadyVoted = post.votedBy.some(
-      (obj) => obj.user === user._id.toString()
+      (obj) => obj.user === user._id.toString(),
     );
 
     if (alreadyVoted) {
       if (post.votedBy.some((obj) => obj.voteType === voteType)) {
-        if (voteType === "upvote") {
+        if (voteType === 'upvote') {
           post.vote -= 1;
-        } else if (voteType === "downvote") {
+        } else if (voteType === 'downvote') {
           post.vote += 1;
         }
         const filter = {
@@ -115,34 +114,34 @@ exports.vote = async (req, res) => {
         await PostModel.findByIdAndUpdate(filter, update);
 
         await post.save();
-        res.status(200).json({ post, message: "Post updated" });
+        res.status(200).json({ post, message: 'Post updated' });
       } else {
-        if (voteType === "upvote") {
+        if (voteType === 'upvote') {
           post.vote += 2;
         }
-        if (voteType === "downvote") {
+        if (voteType === 'downvote') {
           post.vote -= 2;
         }
 
         const index = post.votedBy.findIndex(
-          (element) => element.user === user._id.toString()
+          (element) => element.user === user._id.toString(),
         );
         post.votedBy[index].voteType = voteType;
         await post.save();
-        res.status(200).json({ post, message: "Post updated" });
+        res.status(200).json({ post, message: 'Post updated' });
       }
     } else {
       post.votedBy.push({ user: user._id, voteType: voteType });
 
-      if (voteType === "upvote") {
+      if (voteType === 'upvote') {
         post.vote += 1;
       }
-      if (voteType === "downvote") {
+      if (voteType === 'downvote') {
         post.vote -= 1;
       }
 
       await post.save();
-      res.status(200).json({ post, message: "Post updated" });
+      res.status(200).json({ post, message: 'Post updated' });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -154,17 +153,17 @@ exports.savePost = async (req, res) => {
   try {
     const post = await PostModel.findById({ _id: postId });
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      return res.status(404).json({ message: 'Post not found' });
     }
     if (user.savedPosts.includes(postId)) {
       const index = user.savedPosts.indexOf(postId);
       user.savedPosts.splice(index, 1);
       await user.save();
-      return res.status(200).json({ user, message: "Post unsaved" });
+      return res.status(200).json({ user, message: 'Post unsaved' });
     }
     user.savedPosts.push(postId);
     await user.save();
-    res.status(200).json({ message: "Post saved" });
+    res.status(200).json({ message: 'Post saved' });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -183,7 +182,7 @@ exports.getOnePost = async (req, res) => {
     const post = await PostModel.findById({ _id: postId });
     res.status(200).json(post);
   } catch (error) {
-    res.status(404).json({ message: "Post not found" });
+    res.status(404).json({ message: 'Post not found' });
   }
 };
 exports.getOneSubCategory = async (req, res) => {
@@ -193,7 +192,7 @@ exports.getOneSubCategory = async (req, res) => {
 
     res.status(200).json(posts);
   } catch (error) {
-    res.status(404).json({ message: "Post not found" });
+    res.status(404).json({ message: 'Post not found' });
   }
 };
 exports.getSavedPosts = async (req, res) => {
@@ -201,12 +200,12 @@ exports.getSavedPosts = async (req, res) => {
   try {
     const postIds = user.savedPosts;
     const posts = await Promise.all(
-      postIds.map((postId) => PostModel.findById(postId))
+      postIds.map((postId) => PostModel.findById(postId)),
     );
 
     res.status(200).json(posts);
   } catch (error) {
-    res.status(404).json({ message: "Something went wrong" });
+    res.status(404).json({ message: 'Something went wrong' });
   }
 };
 exports.getSubmittedPosts = async (req, res) => {
@@ -214,11 +213,11 @@ exports.getSubmittedPosts = async (req, res) => {
   try {
     const postIds = user.submittedPosts;
     const posts = await Promise.all(
-      postIds.map((postId) => PostModel.findById(postId))
+      postIds.map((postId) => PostModel.findById(postId)),
     );
     res.status(200).json(posts);
   } catch (error) {
-    res.status(404).json({ message: "Something went wrong" });
+    res.status(404).json({ message: 'Something went wrong' });
   }
 };
 exports.getSearchedPost = async (req, res) => {
@@ -227,8 +226,8 @@ exports.getSearchedPost = async (req, res) => {
   try {
     const posts = await PostModel.find({
       $or: [
-        { body: { $regex: query, $options: "i" } },
-        { title: { $regex: query, $options: "i" } },
+        { body: { $regex: query, $options: 'i' } },
+        { title: { $regex: query, $options: 'i' } },
       ],
     });
     if (posts.length <= 0) {
