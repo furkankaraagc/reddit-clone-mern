@@ -1,21 +1,24 @@
-import { Navbar } from "./components/Navbar";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState, useRef, lazy, Suspense } from "react";
+import { Navbar } from './components/navbar/Navbar';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState, useRef, lazy, Suspense } from 'react';
+import { Toaster } from 'react-hot-toast';
 
-const SavedPosts = lazy(() => import("./components/SavedPosts"));
-const RelatedPost = lazy(() => import("./components/RelatedPost"));
-const SearchedPost = lazy(() => import("./components/SearchedPost"));
-const SubmittedPosts = lazy(() => import("./components/SubmittedPosts"));
-const CreateSubcategory = lazy(() => import("./components/CreateSubcategory"));
-const CreatePost = lazy(() => import("./components/CreatePost"));
-const HomePage = lazy(() => import("./components/HomePage"));
-const Subcategory = lazy(() => import("./components/Subcategory"));
+const SavedPosts = lazy(() => import('./components/post/SavedPosts'));
+const RelatedPost = lazy(() => import('./components/post/RelatedPost'));
+const SearchedPost = lazy(() => import('./components/post/SearchedPost'));
+const SubmittedPosts = lazy(() => import('./components/post/SubmittedPosts'));
+const CreateSubcategory = lazy(() =>
+  import('./components/category/CreateSubcategory'),
+);
+const CreatePost = lazy(() => import('./components/post/CreatePost'));
+const HomePage = lazy(() => import('./components/HomePage'));
+const Subcategory = lazy(() => import('./components/category/Subcategory'));
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [modal, setModal] = useState(false);
   const [focusOne, setFocusOne] = useState(false);
-  const [sort, setSort] = useState("");
+  const [sort, setSort] = useState('');
 
   const refOne = useRef(null);
 
@@ -31,6 +34,7 @@ function App() {
   return (
     <BrowserRouter>
       <div onClick={handleCloseSearch} className='bg-gray-200 h-screen '>
+        <Toaster />
         <Navbar
           focusOne={focusOne}
           refOne={refOne}

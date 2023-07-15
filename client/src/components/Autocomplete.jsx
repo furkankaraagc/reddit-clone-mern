@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import SearchSharpIcon from "@mui/icons-material/SearchSharp";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import SearchSharpIcon from '@mui/icons-material/SearchSharp';
+import axios from 'axios';
 
 export const Autocomplete = ({ focus, topic, setTopic, refOne }) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [data, setData] = useState([]);
   const [filtred, setFiltred] = useState([]);
 
@@ -14,8 +14,8 @@ export const Autocomplete = ({ focus, topic, setTopic, refOne }) => {
   useEffect(() => {
     setFiltred(
       data.filter((option) =>
-        option.category.toLowerCase().includes(value?.toLowerCase())
-      )
+        option.category.toLowerCase().includes(value?.toLowerCase()),
+      ),
     );
   }, [data, value, topic]);
 
@@ -32,7 +32,7 @@ export const Autocomplete = ({ focus, topic, setTopic, refOne }) => {
   const fetchCategories = async () => {
     const res = await axios.get(`http://localhost:8000/categories`, {
       headers: {
-        Authorization: localStorage.getItem("token"),
+        Authorization: localStorage.getItem('token'),
       },
     });
     setData(res.data);

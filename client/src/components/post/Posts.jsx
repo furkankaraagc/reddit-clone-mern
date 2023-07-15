@@ -1,14 +1,12 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { Post } from "./Post";
-import { Filter } from "./Filter";
-import { useParams } from "react-router-dom";
+import { Post } from './Post';
+import { Filter } from '../Filter';
+import { useParams } from 'react-router-dom';
 
 export const Posts = ({ isLoggedIn, setModal, sort, setSort }) => {
   const [posts, setPosts] = useState([]);
   const { sortType } = useParams();
-  console.log(sortType);
 
   useEffect(() => {
     fetchData();
@@ -16,9 +14,9 @@ export const Posts = ({ isLoggedIn, setModal, sort, setSort }) => {
 
   const fetchData = async () => {
     await fetch(`http://localhost:8000/posts/${sortType}`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-type": "application/json",
+        'Content-type': 'application/json',
       },
     })
       .then((res) => res.json())
@@ -27,7 +25,7 @@ export const Posts = ({ isLoggedIn, setModal, sort, setSort }) => {
 
   return (
     <div className='sm:mx-5 '>
-      <Filter sort={sort} setSort={setSort} />
+      <Filter sort={sort} setSort={setSort} sortType={sortType} />
       {posts.map((post) => {
         return (
           <Post

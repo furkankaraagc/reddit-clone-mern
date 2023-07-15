@@ -1,51 +1,35 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
-import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
-import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
-import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import HighlightOffSharpIcon from "@mui/icons-material/HighlightOffSharp";
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
+import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import HighlightOffSharpIcon from '@mui/icons-material/HighlightOffSharp';
 
 export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
   const [savedPosts, setSavedPosts] = useState([]);
-  const [notify, setNotify] = useState("");
-  const [showNotify, setShowNotify] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     isSaved();
   }, [fetchData]);
 
-  useEffect(() => {
-    let timeoutId;
-    if (notify) {
-      setShowNotify(true);
-      timeoutId = setTimeout(() => {
-        setShowNotify(false);
-        setNotify("");
-      }, 1500);
-    }
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [notify]);
-
   const isSaved = async () => {
     if (token) {
-      await fetch("http://localhost:8000/user", {
-        method: "GET",
+      await fetch('http://localhost:8000/user', {
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: token,
         },
       })
@@ -74,10 +58,10 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
     if (!isLoggedIn) {
       return setModal(true);
     }
-    await fetch("http://localhost:8000/vote", {
-      method: "PUT",
+    await fetch('http://localhost:8000/vote', {
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: token,
       },
       body: JSON.stringify({
@@ -92,10 +76,10 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
     if (!isLoggedIn) {
       return setModal(true);
     }
-    await fetch("http://localhost:8000/savePost", {
-      method: "PUT",
+    await fetch('http://localhost:8000/savePost', {
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: token,
       },
       body: JSON.stringify({
@@ -103,15 +87,15 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => setNotify(data.message));
+      .then((data) => toast.success(data.message));
 
     fetchData();
   };
   const deleteHandler = async (post) => {
-    await fetch("http://localhost:8000/deletePost", {
-      method: "DELETE",
+    await fetch('http://localhost:8000/deletePost', {
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: token,
       },
       body: JSON.stringify({
@@ -119,29 +103,30 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => setNotify(data.message));
+      .then((data) => toast.success(data.message));
 
     fetchData();
+    await fetch('http://localhost:8000/deleteComment', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: token },
+      body: JSON.stringify({
+        commentId: post.comments,
+        postId: post._id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => toast.success(data.message));
   };
-
   return (
     <div className='x'>
-      {showNotify && (
-        <div className='fixed inset-x-0 bottom-0 flex justify-center items-end mb-6 z-50 '>
-          <div className='border-2 border-blue-500 py-2 px-5 bg-blue-50 text-lg  '>
-            {notify}
-          </div>
-        </div>
-      )}
-
       {post && savedPosts && (
         <div
           onClick={() => {
             if (
               location.pathname !==
-              `${post.subcategory.replace(/\s+/g, "")}/${post._id}`
+              `${post.subcategory.replace(/\s+/g, '')}/${post._id}`
             ) {
-              navigate(`/${post.subcategory.replace(/\s+/g, "")}/${post._id}`);
+              navigate(`/${post.subcategory.replace(/\s+/g, '')}/${post._id}`);
             }
           }}
           key={post._id}
@@ -154,17 +139,17 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
             <button
               className='hover:bg-gray-200'
               onClick={() => {
-                voteHandler(post, "upvote");
+                voteHandler(post, 'upvote');
               }}
             >
               {post.votedBy[
                 post.votedBy.findIndex((element) => element.user === userId)
-              ]?.voteType === "upvote" && isLoggedIn ? (
-                <i className='text-2xl  '>
+              ]?.voteType === 'upvote' && isLoggedIn ? (
+                <i className='text-2xl text-green-700    '>
                   <ThumbUpIcon />
                 </i>
               ) : (
-                <i className='text-2xl  '>
+                <i className='text-2xl text-gray-700 '>
                   <ThumbUpOutlinedIcon />
                 </i>
               )}
@@ -174,17 +159,17 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
             <button
               className='hover:bg-gray-200'
               onClick={() => {
-                voteHandler(post, "downvote");
+                voteHandler(post, 'downvote');
               }}
             >
               {post.votedBy[
                 post.votedBy.findIndex((element) => element.user === userId)
-              ]?.voteType === "downvote" && isLoggedIn ? (
-                <i className='text-2xl '>
+              ]?.voteType === 'downvote' && isLoggedIn ? (
+                <i className='text-2xl text-red-700'>
                   <ThumbDownIcon />
                 </i>
               ) : (
-                <i className='text-2xl '>
+                <i className='text-2xl text-gray-700 '>
                   <ThumbDownOutlinedIcon />
                 </i>
               )}
@@ -199,7 +184,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
                 }}
                 className='font-semibold text-sm box-border border-b border-transparent hover:border-black'
               >
-                {post.subcategory}
+                r/{post.subcategory}
               </p>
               <p className='text-sm font-light ml-1'>
                 Posted by {post.username}
@@ -215,15 +200,15 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
                   e.stopPropagation();
                   if (
                     location.pathname !==
-                    `${post.subcategory.replace(/\s+/g, "")}/${post._id}`
+                    `${post.subcategory.replace(/\s+/g, '')}/${post._id}`
                   ) {
                     navigate(
-                      `/${post.subcategory.replace(/\s+/g, "")}/${post._id}`
+                      `/${post.subcategory.replace(/\s+/g, '')}/${post._id}`,
                     );
                   }
                 }}
               >
-                <i className='flex text-center justify-center items-center pr-1'>
+                <i className='flex text-center justify-center items-center pr-1 opacity-95'>
                   <ChatBubbleOutlineOutlinedIcon />
                 </i>
                 <p>{post.comments.length} Comments</p>
@@ -237,14 +222,14 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
               >
                 {savedPosts && savedPosts.includes(post._id) ? (
                   <>
-                    <i className='flex text-center justify-center items-center pr-1'>
+                    <i className='flex text-center justify-center items-center pr-1 opacity-95'>
                       <BookmarkIcon />
                     </i>
                     <p>Unsave</p>
                   </>
                 ) : (
                   <>
-                    <i className='flex text-center justify-center items-center pr-1'>
+                    <i className='flex text-center justify-center items-center pr-1 opacity-95'>
                       <BookmarkBorderOutlinedIcon />
                     </i>
                     <p>Save</p>

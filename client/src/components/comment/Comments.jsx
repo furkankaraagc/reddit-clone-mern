@@ -1,24 +1,17 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { Comment } from "./Comment";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { Comment } from './Comment';
+import { toast } from 'react-hot-toast';
 
-export const Comments = ({
-  setModal,
-  comments,
-  setComments,
-  fetchComments,
-}) => {
+export const Comments = ({ setModal, comments, fetchComments }) => {
   const { postId } = useParams();
 
-  // const [comments, setComments] = useState([]);
-  const [parentInput, setParentInput] = useState("");
-  const [parentCommentId, setParentCommentId] = useState("");
+  const [parentInput, setParentInput] = useState('');
+  const [parentCommentId, setParentCommentId] = useState('');
   const [disabled, setDisabled] = useState(true);
-  const [notify, setNotify] = useState("");
-  const [showNotify, setShowNotify] = useState(false);
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     fetchComments();
@@ -31,37 +24,15 @@ export const Comments = ({
     }
   }, [parentInput]);
 
-  useEffect(() => {
-    let timeoutId;
-    if (notify) {
-      setShowNotify(true);
-      timeoutId = setTimeout(() => {
-        setShowNotify(false);
-        setNotify("");
-      }, 1500);
-    }
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [notify]);
-
   const parentComments = comments.filter((comment) => !comment.parentComment);
 
-  // const fetchComments = async () => {
-  //   const res = await axios.get(`http://localhost:8000/comments/${postId}`, {
-  //     headers: {
-  //       Authorization: token,
-  //     },
-  //   });
-  //   setComments(res.data);
-  // };
   const submitHandler = async (e) => {
     e.preventDefault();
     if (!token) {
       return setModal(true);
     }
     const res = await axios.post(
-      "http://localhost:8000/createComment",
+      'http://localhost:8000/createComment',
       {
         body: parentInput,
         post: postId,
@@ -71,22 +42,15 @@ export const Comments = ({
         headers: {
           Authorization: token,
         },
-      }
+      },
     );
-    setNotify(res.data.message);
-    setParentInput("");
+    toast.success(res.data.message);
+    setParentInput('');
     fetchComments();
   };
 
   return (
     <div className='md:w-[650px] md:mx-auto md:p-3 bg-white  '>
-      {showNotify && (
-        <div className='fixed inset-x-0 bottom-0 flex justify-center items-end mb-6 z-50 '>
-          <div className='border-2 border-blue-500 py-2 px-5 bg-blue-50 text-lg  '>
-            {notify}
-          </div>
-        </div>
-      )}
       <form
         onSubmit={submitHandler}
         className='flex justify-center flex-col mb-3'
@@ -103,8 +67,8 @@ export const Comments = ({
           disabled={disabled}
           className={
             !disabled
-              ? " bg-blue-600 text-white  rounded-lg mt-1 py-1 hover:opacity-90"
-              : "cursor-not-allowed bg-gray-400 rounded-lg mt-1 py-1"
+              ? ' bg-blue-600 text-white  rounded-lg mt-1 py-1 hover:opacity-90'
+              : 'cursor-not-allowed bg-gray-400 rounded-lg mt-1 py-1'
           }
         >
           Submit
@@ -113,6 +77,7 @@ export const Comments = ({
       <div>
         {parentComments.map((parentComment) => (
           <Comment
+            key={parentCommentId}
             setModal={setModal}
             parentComment={parentComment}
             comments={comments}

@@ -1,17 +1,17 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { SideBar } from "./Sidebar";
-import { Post } from "./Post";
-import { useParams } from "react-router-dom";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { SideBar } from '../Sidebar';
+import { Post } from './Post';
+import { useParams } from 'react-router-dom';
 
 const SearchedPost = ({ setModal, isLoggedIn }) => {
   const { query } = useParams();
   const [posts, setPosts] = useState([]);
-  const [notify, setNotify] = useState("");
+  const [notify, setNotify] = useState('');
 
   useEffect(() => {
-    setPosts("");
-    setNotify("");
+    setPosts('');
+    setNotify('');
     fetchData();
   }, [query]);
 

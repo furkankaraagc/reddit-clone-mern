@@ -1,22 +1,22 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import KeyboardArrowDownSharpIcon from "@mui/icons-material/KeyboardArrowDownSharp";
-import KeyboardArrowUpSharpIcon from "@mui/icons-material/KeyboardArrowUpSharp";
-import AddSharpIcon from "@mui/icons-material/AddSharp";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import KeyboardArrowDownSharpIcon from '@mui/icons-material/KeyboardArrowDownSharp';
+import KeyboardArrowUpSharpIcon from '@mui/icons-material/KeyboardArrowUpSharp';
+import AddSharpIcon from '@mui/icons-material/AddSharp';
 
 export const SideBar = ({ submitHandler }) => {
   const [topics, setTopics] = useState([]);
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     fetchTopics();
   }, [submitHandler]);
 
   const fetchTopics = async () => {
-    const res = await axios.get("http://localhost:8000/categories");
+    const res = await axios.get('http://localhost:8000/categories');
     setTopics(res.data);
   };
 
@@ -51,7 +51,7 @@ export const SideBar = ({ submitHandler }) => {
               onClick={() => navigate(`/${child}`)}
               style={{ marginLeft: `${level * 20}px` }}
             >
-              {child}
+              r/{child}
             </div>
           ))}
       </div>
@@ -65,7 +65,7 @@ export const SideBar = ({ submitHandler }) => {
           <i className=''>
             <AddSharpIcon />
           </i>
-          <button onClick={() => navigate("/createSubcategory")}>
+          <button onClick={() => navigate('/createSubcategory')}>
             Create Subcategory
           </button>
         </div>

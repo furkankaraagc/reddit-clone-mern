@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import { SideBar } from "./Sidebar";
-import { Autocomplete } from "./Autocomplete";
-import { AutocompleteSub } from "./AutocompleteSub";
-import axios from "axios";
+import React, { useEffect, useRef, useState } from 'react';
+import { SideBar } from '../Sidebar';
+import { Autocomplete } from '../Autocomplete';
+import { AutocompleteSub } from '../AutocompleteSub';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
 const CreatePost = () => {
   const refOne = useRef(null);
@@ -11,12 +12,10 @@ const CreatePost = () => {
   const [disabled, setDisabled] = useState(true);
   const [focusOne, setFocusOne] = useState(false);
   const [focusTwo, setFocusTwo] = useState(false);
-  const [topic, setTopic] = useState("");
-  const [subcategory, setSubcategory] = useState("");
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [notify, setNotify] = useState("");
-  const [showNotify, setShowNotify] = useState(false);
+  const [topic, setTopic] = useState('');
+  const [subcategory, setSubcategory] = useState('');
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
 
   useEffect(() => {
     if (title && content && topic && subcategory) {
@@ -25,19 +24,6 @@ const CreatePost = () => {
       setDisabled(true);
     }
   }, [title, content, topic, subcategory]);
-
-  useEffect(() => {
-    let timeoutId;
-    if (notify) {
-      setShowNotify(true);
-      timeoutId = setTimeout(() => {
-        setShowNotify(false);
-      }, 2500);
-    }
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [notify]);
 
   const handleCloseSearch = (e) => {
     //If user click outside the input
@@ -59,9 +45,8 @@ const CreatePost = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      setNotify("");
       const res = await axios.post(
-        "http://localhost:8000/createPost",
+        'http://localhost:8000/createPost',
         {
           body: content,
           title: title,
@@ -70,28 +55,21 @@ const CreatePost = () => {
         },
         {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization: localStorage.getItem('token'),
           },
-        }
+        },
       );
-      setNotify(res.data.message);
+      toast.success(res.data.message);
     } catch (error) {
-      setNotify(error.response.data.message);
+      toast.error(error.response.data.message);
     }
   };
   return (
     <div onClick={handleCloseSearch} className='flex h-screen  '>
-      {showNotify && (
-        <div className='fixed inset-x-0 bottom-0 flex justify-center items-end mb-6 z-50 '>
-          <div className='border-2 border-blue-500 py-2 px-5 bg-blue-50 text-lg  '>
-            {notify}
-          </div>
-        </div>
-      )}
       <SideBar />
-      <div className='flex flex-col flex-grow mx-3 mt-10 lg:ml-56  '>
-        <h1 className='text-xl mt-5 mb-3 mx-10'>Create post</h1>
-        <div className='mx-10'>
+      <div className='flex flex-col flex-grow  mt-10  '>
+        <div className='min-w-[500px] mt-5 mx-auto'>
+          <h1 className='text-xl mb-3'>Create Post</h1>
           <div className='flex flex-col gap-5'>
             <Autocomplete
               focus={focusOne}
@@ -127,8 +105,8 @@ const CreatePost = () => {
               disabled={disabled}
               className={
                 !disabled
-                  ? " bg-blue-600 text-white  rounded-lg mt-1 py-1 hover:opacity-90"
-                  : "cursor-not-allowed bg-gray-400 rounded-lg mt-1 py-1"
+                  ? ' bg-blue-600 text-white  rounded-lg mt-1 py-1 hover:opacity-90'
+                  : 'cursor-not-allowed bg-gray-400 rounded-lg mt-1 py-1'
               }
             >
               Submit

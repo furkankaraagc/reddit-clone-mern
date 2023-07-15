@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
-import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
-import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
+import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
+import { toast } from 'react-hot-toast';
 
 export const Comment = ({
   parentComment,
@@ -16,17 +17,14 @@ export const Comment = ({
   setModal,
 }) => {
   const [isReply, setIsReply] = useState(false);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
   const [disabled, setDisabled] = useState(true);
-  const [notify, setNotify] = useState("");
-  const [showNotify, setShowNotify] = useState(false);
 
   const { postId } = useParams();
 
-  const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("userId");
-  const username = localStorage.getItem("username");
-
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
+  const username = localStorage.getItem('username');
   useEffect(() => {
     if (comment) {
       setDisabled(false);
@@ -35,28 +33,14 @@ export const Comment = ({
     }
   }, [comment]);
 
-  useEffect(() => {
-    let timeoutId;
-    if (notify) {
-      setShowNotify(true);
-      timeoutId = setTimeout(() => {
-        setShowNotify(false);
-        setNotify("");
-      }, 1500);
-    }
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [notify]);
-
   const voteHandler = async (parentComment, voteType) => {
     if (!token) {
       return setModal(true);
     }
-    await fetch("http://localhost:8000/commentVote", {
-      method: "PUT",
+    await fetch('http://localhost:8000/commentVote', {
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: token,
       },
       body: JSON.stringify({
@@ -68,22 +52,22 @@ export const Comment = ({
     fetchComments();
   };
   const deleteHandler = async () => {
-    await fetch("http://localhost:8000/deleteComment", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", Authorization: token },
+    await fetch('http://localhost:8000/deleteComment', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: token },
       body: JSON.stringify({
         commentId: parentComment._id,
         postId: postId,
       }),
     })
       .then((res) => res.json())
-      .then((data) => setNotify(data.message));
+      .then((data) => toast.success(data.message));
 
     fetchComments();
   };
 
   const subcomments = comments.filter(
-    (element) => element.parentComment === parentComment._id
+    (element) => element.parentComment === parentComment._id,
   );
 
   const commentDate = () => {
@@ -109,7 +93,7 @@ export const Comment = ({
     }
 
     const res = await axios.post(
-      "http://localhost:8000/createComment",
+      'http://localhost:8000/createComment',
       {
         body: comment,
         post: postId,
@@ -119,22 +103,15 @@ export const Comment = ({
         headers: {
           Authorization: token,
         },
-      }
+      },
     );
-    setNotify(res.data.message);
-    setComment("");
+    toast.success(res.data.message);
+    setComment('');
     setIsReply(false);
     fetchComments();
   };
   return (
     <div className='flex flex-col border-l-2 border-gray-400  '>
-      {showNotify && (
-        <div className='fixed inset-x-0 bottom-0 flex justify-center items-end mb-6 z-50 '>
-          <div className='border-2 border-blue-500 py-2 px-5 bg-blue-50 text-lg  '>
-            {notify}
-          </div>
-        </div>
-      )}
       <div className='border-2 border-l-0 border-gray-400 flex p-1 mb-2'>
         <div
           onClick={(e) => e.stopPropagation()}
@@ -143,19 +120,19 @@ export const Comment = ({
           <button
             className='hover:bg-gray-200'
             onClick={() => {
-              voteHandler(parentComment, "upvote");
+              voteHandler(parentComment, 'upvote');
             }}
           >
             {parentComment.votedBy[
               parentComment.votedBy.findIndex(
-                (element) => element.user === userId
+                (element) => element.user === userId,
               )
-            ]?.voteType === "upvote" && token ? (
-              <i className='text-2xl  '>
+            ]?.voteType === 'upvote' && token ? (
+              <i className='text-2xl text-gray-700 '>
                 <ThumbUpIcon />
               </i>
             ) : (
-              <i className='text-2xl  '>
+              <i className='text-2xl text-gray-700 '>
                 <ThumbUpOutlinedIcon />
               </i>
             )}
@@ -165,19 +142,19 @@ export const Comment = ({
           <button
             className='hover:bg-gray-200'
             onClick={() => {
-              voteHandler(parentComment, "downvote");
+              voteHandler(parentComment, 'downvote');
             }}
           >
             {parentComment.votedBy[
               parentComment.votedBy.findIndex(
-                (element) => element.user === userId
+                (element) => element.user === userId,
               )
-            ]?.voteType === "downvote" && token ? (
-              <i className='text-2xl '>
+            ]?.voteType === 'downvote' && token ? (
+              <i className='text-2xl text-gray-700 '>
                 <ThumbDownIcon />
               </i>
             ) : (
-              <i className='text-2xl '>
+              <i className='text-2xl text-gray-700 '>
                 <ThumbDownOutlinedIcon />
               </i>
             )}
@@ -194,7 +171,7 @@ export const Comment = ({
               onClick={() => setIsReply(!isReply)}
               className='flex mt-2 cursor-pointer hover:bg-gray-200 px-2 py-1 w-20 '
             >
-              <div className='flex text-center justify-center items-center pr-1'>
+              <div className='flex text-center justify-center items-center pr-1 opacity-95'>
                 <i>
                   <ChatBubbleOutlineOutlinedIcon />
                 </i>
@@ -206,8 +183,8 @@ export const Comment = ({
               onClick={deleteHandler}
               className='flex mt-2 cursor-pointer hover:bg-gray-200 px-2 py-1 w-20 '
             >
-              <div className='flex text-center justify-center items-center pr-1'>
-                <i>
+              <div className='flex text-center justify-center items-center pr-1 '>
+                <i className='opacity-90'>
                   <DeleteSharpIcon />
                 </i>
                 <button className='text-gray-600'>Delete</button>
@@ -233,8 +210,8 @@ export const Comment = ({
             disabled={disabled}
             className={
               !disabled
-                ? " bg-blue-600 text-white  rounded-lg mt-1 py-1 hover:opacity-90"
-                : "cursor-not-allowed bg-gray-400 rounded-lg mt-1 py-1"
+                ? ' bg-blue-600 text-white  rounded-lg mt-1 py-1 hover:opacity-90'
+                : 'cursor-not-allowed bg-gray-400 rounded-lg mt-1 py-1'
             }
           >
             Reply
@@ -246,6 +223,7 @@ export const Comment = ({
         <div style={{ marginLeft: `${parentComment.depth * 10}px` }}>
           {subcomments.map((subcomment) => (
             <Comment
+              key={subcomment._id}
               parentComment={subcomment}
               comments={comments}
               fetchComments={fetchComments}

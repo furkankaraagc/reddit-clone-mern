@@ -1,30 +1,29 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { SideBar } from "./Sidebar";
-import { Post } from "./Post";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { SideBar } from '../Sidebar';
+import { Post } from './Post';
 
-const SubmittedPosts = ({ setModal, isLoggedIn }) => {
+const SavedPosts = ({ setModal, isLoggedIn }) => {
   const [posts, setPosts] = useState([]);
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     fetchData();
   }, []);
-
   const fetchData = async () => {
-    const res = await axios.get("http://localhost:8000/submittedPosts", {
+    const res = await axios.get('http://localhost:8000/submittedPosts', {
       headers: {
         Authorization: token,
       },
     });
-
     setPosts(res.data);
   };
+  const posts2 = [{ id: 1 }, { id: 2 }];
   return (
     <div className=' bg-gray-200'>
       <SideBar />
-      <div className='pt-20 bg-gray-200 md:ml-32'>
+      <div className='pt-20 md:ml-32 bg-gray-200 '>
         <h1 className='md:w-[650px] md:mx-auto text-xl mb-2 font-semibold'>
           Your Posts
         </h1>
@@ -41,4 +40,4 @@ const SubmittedPosts = ({ setModal, isLoggedIn }) => {
     </div>
   );
 };
-export default SubmittedPosts;
+export default SavedPosts;

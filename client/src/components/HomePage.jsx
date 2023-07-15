@@ -1,7 +1,7 @@
-import { Posts } from "./Posts";
-import { SideBar } from "./Sidebar";
-import { Link } from "react-router-dom";
-import AddSharpIcon from "@mui/icons-material/AddSharp";
+import { Posts } from './post/Posts';
+import { SideBar } from './Sidebar';
+import { Link } from 'react-router-dom';
+import AddSharpIcon from '@mui/icons-material/AddSharp';
 
 const HomePage = ({ isLoggedIn, modal, setModal, sort, setSort }) => {
   return (

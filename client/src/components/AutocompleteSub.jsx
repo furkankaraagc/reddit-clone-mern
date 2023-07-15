@@ -1,29 +1,32 @@
-import { useEffect, useState } from "react";
-import SearchSharpIcon from "@mui/icons-material/SearchSharp";
+import { useEffect, useState } from 'react';
+import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 
-import axios from "axios";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const AutocompleteSub = ({ refTwo, focus, topic, setSubcategory }) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [data, setData] = useState([]);
   const [filtred, setFiltred] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCategories();
   }, []);
 
   useEffect(() => {
-    setValue("");
+    setValue('');
   }, [topic]);
 
   useEffect(() => {
     const filtredVar = data.filter(
-      (option) => option.category?.toLowerCase() === topic.toLowerCase()
+      (option) => option.category?.toLowerCase() === topic.toLowerCase(),
     );
     setFiltred(
       filtredVar[0]?.subcategory.filter((element) =>
-        element.toLowerCase().includes(value?.toLowerCase())
-      )
+        element.toLowerCase().includes(value?.toLowerCase()),
+      ),
     );
   }, [data, value, topic]);
 
@@ -40,7 +43,7 @@ export const AutocompleteSub = ({ refTwo, focus, topic, setSubcategory }) => {
   const fetchCategories = async () => {
     const res = await axios.get(`http://localhost:8000/subcategories`, {
       headers: {
-        Authorization: localStorage.getItem("token"),
+        Authorization: localStorage.getItem('token'),
       },
     });
     setData(res.data);
@@ -62,9 +65,18 @@ export const AutocompleteSub = ({ refTwo, focus, topic, setSubcategory }) => {
           ref={refTwo}
         />
       </div>
-
       {focus && (
         <ul className='bg-white absolute overflow-auto w-full p-2 z-10 border-gray-200 border-2 '>
+          {
+            <h1 className='flex justify-end text-blue-500    '>
+              <span
+                onClick={() => navigate('/createSubcategory')}
+                className='hover:bg-gray-200 cursor-pointer px-1 rounded-md '
+              >
+                + CreateNew
+              </span>
+            </h1>
+          }
           {filtred?.map((option) => (
             <li
               className='border-b border-gray-200 p-2 cursor-pointer '

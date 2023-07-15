@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { SideBar } from "./Sidebar";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import { Post } from "./Post";
+import { useEffect, useState } from 'react';
+import { SideBar } from '../Sidebar';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { Post } from '../post/Post';
 
 const Subcategory = ({ setModal, isLoggedIn }) => {
   const [posts, setPosts] = useState([]);

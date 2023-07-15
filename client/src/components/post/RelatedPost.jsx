@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Post } from "./Post";
-import { SideBar } from "./Sidebar";
-import axios from "axios";
-import { Comments } from "./Comments";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Post } from './Post';
+import { SideBar } from '../Sidebar';
+import axios from 'axios';
+import { Comments } from '../comment/Comments';
 
 const RelatedPost = ({ setModal, isLoggedIn }) => {
   const { postId } = useParams();
 
-  const [post, setPost] = useState("");
+  const [post, setPost] = useState('');
   const [comments, setComments] = useState([]);
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   const fetchComments = async () => {
     const res = await axios.get(`http://localhost:8000/comments/${postId}`, {
