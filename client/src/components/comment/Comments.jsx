@@ -32,7 +32,7 @@ export const Comments = ({ setModal, comments, fetchComments }) => {
       return setModal(true);
     }
     const res = await axios.post(
-      'http://localhost:8000/createComment',
+      'https://blog-app-mern-85pk.onrender.com/createComment',
       {
         body: parentInput,
         post: postId,

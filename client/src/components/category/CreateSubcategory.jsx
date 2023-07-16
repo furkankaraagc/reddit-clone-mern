@@ -23,7 +23,7 @@ const CreateSubcategory = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        'http://localhost:8000/createSubcategory',
+        'https://blog-app-mern-85pk.onrender.com/createSubcategory',
         {
           category: topic,
           subcategory: subcategory,

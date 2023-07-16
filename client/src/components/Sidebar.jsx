@@ -16,7 +16,9 @@ export const SideBar = ({ submitHandler }) => {
   }, [submitHandler]);
 
   const fetchTopics = async () => {
-    const res = await axios.get('http://localhost:8000/categories');
+    const res = await axios.get(
+      'https://blog-app-mern-85pk.onrender.com/categories',
+    );
     setTopics(res.data);
   };
 

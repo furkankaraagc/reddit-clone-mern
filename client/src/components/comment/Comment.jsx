@@ -37,7 +37,7 @@ export const Comment = ({
     if (!token) {
       return setModal(true);
     }
-    await fetch('http://localhost:8000/commentVote', {
+    await fetch('https://blog-app-mern-85pk.onrender.com/commentVote', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export const Comment = ({
     fetchComments();
   };
   const deleteHandler = async () => {
-    await fetch('http://localhost:8000/deleteComment', {
+    await fetch('https://blog-app-mern-85pk.onrender.com/deleteComment', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', Authorization: token },
       body: JSON.stringify({
@@ -93,7 +93,7 @@ export const Comment = ({
     }
 
     const res = await axios.post(
-      'http://localhost:8000/createComment',
+      'https://blog-app-mern-85pk.onrender.com/createComment',
       {
         body: comment,
         post: postId,

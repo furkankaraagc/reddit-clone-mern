@@ -30,11 +30,14 @@ export const Autocomplete = ({ focus, topic, setTopic, refOne }) => {
   };
 
   const fetchCategories = async () => {
-    const res = await axios.get(`http://localhost:8000/categories`, {
-      headers: {
-        Authorization: localStorage.getItem('token'),
+    const res = await axios.get(
+      `https://blog-app-mern-85pk.onrender.com/categories`,
+      {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
       },
-    });
+    );
     setData(res.data);
   };
 

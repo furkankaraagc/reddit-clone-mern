@@ -46,7 +46,7 @@ const CreatePost = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        'http://localhost:8000/createPost',
+        'https://blog-app-mern-85pk.onrender.com/createPost',
         {
           body: content,
           title: title,

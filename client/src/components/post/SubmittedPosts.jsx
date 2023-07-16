@@ -12,11 +12,14 @@ const SavedPosts = ({ setModal, isLoggedIn }) => {
     fetchData();
   }, []);
   const fetchData = async () => {
-    const res = await axios.get('http://localhost:8000/submittedPosts', {
-      headers: {
-        Authorization: token,
+    const res = await axios.get(
+      'https://blog-app-mern-85pk.onrender.com/submittedPosts',
+      {
+        headers: {
+          Authorization: token,
+        },
       },
-    });
+    );
     setPosts(res.data);
   };
   const posts2 = [{ id: 1 }, { id: 2 }];

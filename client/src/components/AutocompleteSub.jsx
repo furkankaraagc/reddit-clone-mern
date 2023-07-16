@@ -41,11 +41,14 @@ export const AutocompleteSub = ({ refTwo, focus, topic, setSubcategory }) => {
   };
 
   const fetchCategories = async () => {
-    const res = await axios.get(`http://localhost:8000/subcategories`, {
-      headers: {
-        Authorization: localStorage.getItem('token'),
+    const res = await axios.get(
+      `https://blog-app-mern-85pk.onrender.com/subcategories`,
+      {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
       },
-    });
+    );
     setData(res.data);
   };
 

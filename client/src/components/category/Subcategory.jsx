@@ -13,7 +13,9 @@ const Subcategory = ({ setModal, isLoggedIn }) => {
   }, [subcategory]);
 
   const fetchData = async () => {
-    const res = await axios.get(`http://localhost:8000/sub/${subcategory}`);
+    const res = await axios.get(
+      `https://blog-app-mern-85pk.onrender.com/sub/${subcategory}`,
+    );
     setPosts(res.data);
   };
   return (

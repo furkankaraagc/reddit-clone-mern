@@ -26,7 +26,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
 
   const isSaved = async () => {
     if (token) {
-      await fetch('http://localhost:8000/user', {
+      await fetch('https://blog-app-mern-85pk.onrender.com/user', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
     if (!isLoggedIn) {
       return setModal(true);
     }
-    await fetch('http://localhost:8000/vote', {
+    await fetch('https://blog-app-mern-85pk.onrender.com/vote', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
     if (!isLoggedIn) {
       return setModal(true);
     }
-    await fetch('http://localhost:8000/savePost', {
+    await fetch('https://blog-app-mern-85pk.onrender.com/savePost', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
     fetchData();
   };
   const deleteHandler = async (post) => {
-    await fetch('http://localhost:8000/deletePost', {
+    await fetch('https://blog-app-mern-85pk.onrender.com/deletePost', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
       .then((data) => toast.success(data.message));
 
     fetchData();
-    await fetch('http://localhost:8000/deleteComment', {
+    await fetch('https://blog-app-mern-85pk.onrender.com/deleteComment', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', Authorization: token },
       body: JSON.stringify({

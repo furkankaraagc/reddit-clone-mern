@@ -17,7 +17,9 @@ const SearchedPost = ({ setModal, isLoggedIn }) => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`http://localhost:8000/search/${query}`);
+      const res = await axios.get(
+        `https://blog-app-mern-85pk.onrender.com/search/${query}`,
+      );
       setPosts(res.data.posts);
     } catch (error) {
       setNotify(error.response.data.message);

@@ -14,11 +14,14 @@ const RelatedPost = ({ setModal, isLoggedIn }) => {
   const token = localStorage.getItem('token');
 
   const fetchComments = async () => {
-    const res = await axios.get(`http://localhost:8000/comments/${postId}`, {
-      headers: {
-        Authorization: token,
+    const res = await axios.get(
+      `https://blog-app-mern-85pk.onrender.com/comments/${postId}`,
+      {
+        headers: {
+          Authorization: token,
+        },
       },
-    });
+    );
     setComments(res.data);
   };
 
@@ -27,7 +30,9 @@ const RelatedPost = ({ setModal, isLoggedIn }) => {
   }, [comments]);
 
   const fetchData = async () => {
-    const res = await axios.get(`http://localhost:8000/post/${postId}`);
+    const res = await axios.get(
+      `https://blog-app-mern-85pk.onrender.com/post/${postId}`,
+    );
     setPost(res.data);
   };
   return (

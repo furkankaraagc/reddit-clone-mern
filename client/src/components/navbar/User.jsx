@@ -29,10 +29,13 @@ export const User = ({
   const loginHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:8000/login', {
-        username: username,
-        password: password,
-      });
+      const res = await axios.post(
+        'https://blog-app-mern-85pk.onrender.com/login',
+        {
+          username: username,
+          password: password,
+        },
+      );
 
       if (res.data.success === true) {
         localStorage.setItem('token', res.data.token);
@@ -53,10 +56,13 @@ export const User = ({
     }
 
     try {
-      const res = await axios.post('http://localhost:8000/register', {
-        username: username,
-        password: password,
-      });
+      const res = await axios.post(
+        'https://blog-app-mern-85pk.onrender.com/register',
+        {
+          username: username,
+          password: password,
+        },
+      );
 
       if (res.data.success === true) {
         localStorage.setItem('token', res.data.token);
