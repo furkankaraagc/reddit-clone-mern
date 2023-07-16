@@ -11,7 +11,6 @@ export const User = ({
   refOne,
   focusOne,
 }) => {
-  const [dropDown, setDropDown] = useState(false);
   const [login, setLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -75,6 +74,7 @@ export const User = ({
       setNotify(error.response.data.message);
     }
   };
+  console.log(focusOne);
 
   return (
     <>
@@ -82,7 +82,6 @@ export const User = ({
         <div className='relative inline-block'>
           <div
             ref={refOne}
-            onClick={() => setDropDown(!dropDown)}
             className='flex gap-1 justify-center items-center cursor-pointer'
           >
             <i>
@@ -126,7 +125,6 @@ export const User = ({
                 <div
                   onClick={() => {
                     setModal(true);
-                    setDropDown(false);
                     setLogin(true);
                   }}
                   className='cursor-pointer hover:bg-gray-200 p-1'

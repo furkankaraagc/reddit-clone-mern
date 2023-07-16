@@ -11,6 +11,7 @@ export const Navbar = ({
   setModal,
   refOne,
   focusOne,
+  setFocusOne,
 }) => {
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export const Navbar = ({
     setSearchInput('');
   };
   return (
-    <nav className='h-11 bg-white flex justify-between px-3  items-center border-2 border-gray-200 fixed w-full z-10'>
+    <nav className='h-12 bg-white flex justify-between px-3  items-center border-2 border-gray-200 fixed w-full z-10'>
       <Link className='text-lg' to='/'>
         <div className='flex gap-1 justify-center items-center'>
           <i className='flex justify-center items-center'>
@@ -49,15 +50,25 @@ export const Navbar = ({
           </button>
         </div>
       </form>
+      <div className='flex gap-5'>
+        {!isLoggedIn && (
+          <button
+            onClick={() => setModal(true)}
+            className='hidden md:block bg-blue-500 border-blue-500 border rounded-2xl px-3 text-white shadow-md'
+          >
+            Log In
+          </button>
+        )}
 
-      <User
-        focusOne={focusOne}
-        refOne={refOne}
-        isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
-        modal={modal}
-        setModal={setModal}
-      />
+        <User
+          focusOne={focusOne}
+          refOne={refOne}
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+          modal={modal}
+          setModal={setModal}
+        />
+      </div>
     </nav>
   );
 };

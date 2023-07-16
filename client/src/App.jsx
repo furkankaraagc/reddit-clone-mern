@@ -18,6 +18,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [modal, setModal] = useState(false);
   const [focusOne, setFocusOne] = useState(false);
+
   const [sort, setSort] = useState('');
 
   const refOne = useRef(null);
@@ -25,6 +26,8 @@ function App() {
   const handleCloseSearch = (e) => {
     //If user click outside the input
     if (!refOne.current.contains(e.target)) {
+      setFocusOne(false);
+    } else if (focusOne) {
       setFocusOne(false);
     } else {
       setFocusOne(true);
