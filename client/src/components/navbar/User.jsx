@@ -89,7 +89,7 @@ export const User = ({
               <PersonIcon />
             </i>
 
-            <p className=' p-1 text-lg'>
+            <p className=' p-1 text-lg hidden sm:block'>
               {isLoggedIn ? localStorage.getItem('username') : 'User Profie'}
             </p>
           </div>

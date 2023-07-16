@@ -30,7 +30,7 @@ export const Navbar = ({
           <i className='flex justify-center items-center'>
             <RedditIcon />
           </i>
-          <h1>Reddit</h1>
+          <h1 className='hidden sm:block'>Reddit</h1>
         </div>
       </Link>
       <form onSubmit={submitHandler}>
@@ -40,7 +40,7 @@ export const Navbar = ({
             value={searchInput}
             placeholder='Search'
             onChange={(e) => setSearchInput(e.target.value)}
-            className=' shadow-md hover:border-blue-400 border-gray-100 border-2 rounded-s-xl h-6 p-4 bg-gray-100 w-[100px] sm:w-[300px] xs:w-[200px] '
+            className=' shadow-md hover:border-blue-400 border-gray-100 border-2 rounded-s-xl h-6 p-4 bg-gray-100 w-[200px] sm:w-[300px] xs:w-[200px] '
           />
           <button className=' shadow-md bg-gray-100 h-6 p-4 flex items-center border-gray-100 border-2 '>
             <i>
