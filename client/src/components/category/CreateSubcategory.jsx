@@ -45,7 +45,7 @@ const CreateSubcategory = () => {
   return (
     <div onClick={handleCloseSearch}>
       <SideBar submitHandler={submitHandler} />
-      <div className='pt-20 lg:ml-80 md:w-[650px] md:mx-auto h-full '>
+      <div className='pt-20 lg:ml-80 md:w-[650px] md:mx-auto h-full mx-2 '>
         <h1 className='mb-2 text-lg font-medium'>Create a subcategory</h1>
         <Autocomplete
           focus={focusOne}
@@ -56,7 +56,7 @@ const CreateSubcategory = () => {
         <form className='flex flex-col gap-1' onSubmit={submitHandler}>
           <p className='mt-2'>Name</p>
           <input
-            className='py-1 px-2 hover:border-gray-400 border'
+            className='py-1 px-2 hover:border-gray-400 border '
             onChange={(e) => setSubcategory(e.target.value)}
             type='text'
             placeholder='r/'

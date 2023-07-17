@@ -68,7 +68,7 @@ const CreatePost = () => {
     <div onClick={handleCloseSearch} className='flex h-screen  '>
       <SideBar />
       <div className='flex flex-col flex-grow  mt-10  '>
-        <div className='min-w-[500px] mt-5 mx-auto'>
+        <div className='min-w-[300px] md:w-[500px] mt-5 md:mx-auto mx-2'>
           <h1 className='text-xl mb-3'>Create Post</h1>
           <div className='flex flex-col gap-5'>
             <Autocomplete

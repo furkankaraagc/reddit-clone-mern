@@ -7,7 +7,7 @@ const HomePage = ({ isLoggedIn, modal, setModal, sort, setSort }) => {
   return (
     <div className='flex h-auto bg-gray-200  flex-col flex-grow lg:flex-row  '>
       <SideBar />
-      <div className='flex flex-col flex-grow mt-10 md:ml-32 bg-gray-200 '>
+      <div className='flex flex-col flex-grow mt-12 md:ml-32 bg-gray-200 '>
         {isLoggedIn && (
           <Link to='/createPost'>
             <div className='flex h-11 bg-white  border-2 border-gray-200 md:w-[650px] md:m-auto'>

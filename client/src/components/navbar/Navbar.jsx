@@ -11,7 +11,6 @@ export const Navbar = ({
   setModal,
   refOne,
   focusOne,
-  setFocusOne,
 }) => {
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
