@@ -4,14 +4,14 @@ Blog application similar to reddit with react, node js, express js, mongodb
 
 Features:
 
--register/login
--nested comments
--responsive design
--lazy loading pages
--create/delete post or comment
--upvote/downvote post or comment
--search posts
--save post
+- register/login
+- nested comments
+- responsive design
+- lazy loading pages
+- create/delete post or comment
+- upvote/downvote post or comment
+- search posts
+- save post
 
 ### Installation
 
