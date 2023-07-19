@@ -1,7 +1,7 @@
-const UserModel = require("../models/UserModel");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const express = require("express");
+const UserModel = require('../models/UserModel');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const express = require('express');
 
 const app = express();
 
@@ -14,14 +14,16 @@ exports.register = async (req, res) => {
     });
     user.password = await bcrypt.hash(user.password, 10);
     await user.save();
-    const token = jwt.sign({ id: user._id }, "123");
+    const token = jwt.sign({ id: user._id }, '123', {
+      expiresIn: '1h',
+    });
 
     res.status(201).json({ success: true, token: token, user: user });
   } catch (error) {
     if (error.code === 11000) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: 'User already exists' });
     }
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json({ message: 'Something went wrong' });
   }
 };
 exports.login = async (req, res) => {
@@ -31,9 +33,11 @@ exports.login = async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(404).json({ success: false, error: "Wrong password " });
+      return res.status(404).json({ success: false, error: 'Wrong password ' });
     }
-    const token = jwt.sign({ id: user._id }, "123");
+    const token = jwt.sign({ id: user._id }, '123', {
+      expiresIn: '1m',
+    });
 
     res.status(200).json({
       success: true,
@@ -43,6 +47,6 @@ exports.login = async (req, res) => {
       userId: user._id,
     });
   } catch {
-    res.status(404).json({ success: false, error: "Wrong username" });
+    res.status(404).json({ success: false, error: 'Wrong username' });
   }
 };
