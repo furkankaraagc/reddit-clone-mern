@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import PersonIcon from '@mui/icons-material/Person';
 import axios from 'axios';
+import { FaXmark } from 'react-icons/fa6';
 
 export const User = ({
   isLoggedIn,
@@ -82,34 +84,34 @@ export const User = ({
         <div className='relative inline-block'>
           <div
             ref={refOne}
-            className='flex gap-1 justify-center items-center cursor-pointer'
+            className='flex gap-1 border transition-all ease-in-out border-[#23272F] hover:border-gray-500 rounded-xl p-1 hover justify-center items-center cursor-pointer'
           >
             <i>
               <PersonIcon />
             </i>
 
-            <p className=' p-1 text-lg hidden sm:block'>
+            <p className=' p-1 text-[16px]  font font-medium hidden sm:block'>
               {isLoggedIn ? localStorage.getItem('username') : 'User Profie'}
             </p>
           </div>
           {focusOne && (
-            <div className=' bg-white  border shadow-lg p-4 w-48 right-5  absolute z-50'>
+            <div className='  rounded-lg bg-[#23272F] border border-gray-600  p-4 w-48 right-0 mt-2  absolute z-50'>
               {isLoggedIn ? (
                 <div>
                   <div
-                    className='cursor-pointer hover:bg-gray-200 p-1'
+                    className='cursor-pointer hover:bg-[#343944] p-1'
                     onClick={() => navigate('/savedPosts')}
                   >
                     Saved Posts
                   </div>
                   <div
-                    className='cursor-pointer hover:bg-gray-200 p-1'
+                    className='cursor-pointer hover:bg-[#343944] p-1'
                     onClick={() => navigate('/submittedPosts')}
                   >
                     Your Posts
                   </div>
                   <div
-                    className='cursor-pointer hover:bg-gray-200 p-1 '
+                    className='cursor-pointer hover:bg-[#343944] p-1 '
                     onClick={() => {
                       localStorage.removeItem('token');
                       localStorage.removeItem('username');
@@ -127,7 +129,7 @@ export const User = ({
                     setModal(true);
                     setLogin(true);
                   }}
-                  className='cursor-pointer hover:bg-gray-200 p-1'
+                  className='cursor-pointer hover:bg-[#343944] p-1'
                 >
                   Log In / Sign Up
                 </div>
@@ -136,18 +138,18 @@ export const User = ({
           )}
           {modal && (
             <div className='z-10 fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center'>
-              <div className='bg-white rounded-lg px-5 pt-1 pb-5 flex flex-col'>
+              <div className='bg-[#23272F] rounded-lg p-12 flex flex-col h-[600px] w-[500px] relative'>
                 <button
                   onClick={() => setModal(false)}
-                  className='cursor-pointer flex justify-end   text-xl font-bold text-gray-500 hover:text-gray-900'
+                  className='absolute text-2xl top-3 right-3 text-[#f6f7f9] hover:bg-gray-600 transition-all ease-in-out rounded-full p-2'
                 >
-                  X
+                  <FaXmark />
                 </button>
                 {login && (
                   <form onSubmit={loginHandler} className='flex flex-col gap-4'>
-                    <h1 className='text-lg mb-2'>Log In</h1>
+                    <h1 className='text-2xl font-bold mb-14'>Log In</h1>
                     <input
-                      className={` shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
+                      className={` shadow-md rounded-lg h-14 p-4 bg-[#343944] hover:border-gray-400 border border-[#343944] ${
                         notify && 'border border-red-500 hover:border-red-500 '
                       }  placeholder:text-sm`}
                       type='text'
@@ -163,7 +165,7 @@ export const User = ({
                       <div className='pl-4 text-sm text-red-500'>{notify}</div>
                     )}
                     <input
-                      className={` shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
+                      className={` shadow-md rounded-lg h-14 p-4 bg-[#343944] hover:border-gray-400 border border-[#343944] ${
                         notify && 'border-red-500 hover:border-red-500'
                       }  placeholder:text-sm`}
                       placeholder='Password'
@@ -175,7 +177,7 @@ export const User = ({
                         setNotify('');
                       }}
                     />
-                    <button className='bg-blue-600 text-white  rounded-lg hover:opacity-90 py-1'>
+                    <button className='bg-[#FF5414] h-12 mt-4 rounded-3xl hover:opacity-90 py-1'>
                       Log In
                     </button>
                     <p className='text-sm'>
@@ -199,9 +201,9 @@ export const User = ({
                     onSubmit={registerHandler}
                     className='flex flex-col gap-4'
                   >
-                    <h1 className='text-lg'>Sign Up</h1>
+                    <h1 className='text-2xl font-bold mb-14'>Sign Up</h1>
                     <input
-                      className={` shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border placeholder:text-sm ${
+                      className={` shadow-md rounded-lg h-14 p-4 bg-[#343944] hover:border-gray-400 border border-[#343944] placeholder:text-sm ${
                         notify === 'User already exists'
                           ? 'border-red-500 hover:border-red-500'
                           : ''
@@ -213,7 +215,7 @@ export const User = ({
                       onChange={(e) => setUsername(e.target.value)}
                     />
                     <input
-                      className={` shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
+                      className={` shadow-md rounded-lg h-14 p-4 bg-[#343944] hover:border-gray-400 border border-[#343944] ${
                         notify === 'Password do not match'
                           ? 'border-red-500 hover:border-red-500'
                           : ''
@@ -228,7 +230,7 @@ export const User = ({
                       }}
                     />
                     <input
-                      className={`  shadow-md rounded-xl h-6 p-4 bg-gray-100 hover:border-gray-400 border ${
+                      className={`  shadow-md rounded-lg h-14 p-4 bg-[#343944] hover:border-gray-400 border-[#343944] border ${
                         notify === 'Password do not match'
                           ? 'border-red-500 hover:border-red-500'
                           : ''
@@ -245,7 +247,7 @@ export const User = ({
                     {notify && (
                       <div className='text-sm text-red-500'>{notify}</div>
                     )}
-                    <button className='bg-blue-600 text-white  rounded-lg hover:opacity-90 py-1'>
+                    <button className='bg-[#FF5414] h-12 mt-4 rounded-3xl hover:opacity-90 py-1'>
                       Sign up
                     </button>
                     <p className='text-sm'>
@@ -257,6 +259,7 @@ export const User = ({
                           setPassword('');
                           setConfirmPassword('');
                           setUsername('');
+                          setNotify('');
                         }}
                       >
                         Log In

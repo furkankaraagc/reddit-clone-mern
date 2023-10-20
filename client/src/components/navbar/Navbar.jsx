@@ -24,36 +24,38 @@ export const Navbar = ({
     setSearchInput('');
   };
   return (
-    <nav className='h-12 bg-white flex justify-between px-3  items-center border-2 border-gray-200 fixed w-full z-10'>
+    <nav className='h-14 bg-[#23272F] border-b border-gray-600 text-[#f6f7f9] flex justify-between px-3  items-center  fixed w-full z-10'>
       <Link className='text-lg' to='/'>
         <div className='flex gap-1 justify-center items-center'>
-          <i className='flex justify-center items-center'>
+          <div className='flex justify-center text-2xl items-center text-[#FF5414]'>
             <RedditIcon />
-          </i>
-          <h1 className='hidden sm:block'>Reddit</h1>
+          </div>
+          <h1 className='hidden sm:block text-xl font-bold text-[#f6f7f9]'>
+            Reddit
+          </h1>
         </div>
       </Link>
       <form onSubmit={submitHandler}>
-        <div className='flex '>
+        <div className='flex relative'>
           <input
             type='text'
             value={searchInput}
             placeholder='Search'
             onChange={(e) => setSearchInput(e.target.value)}
-            className=' shadow-md hover:border-blue-400 border-gray-100 border-2 rounded-s-xl h-6 p-4 bg-gray-100 w-[200px] sm:w-[300px] xs:w-[200px] '
+            className=' shadow-md outline-blue-400 hover:border-blue-400 border-gray-600 border rounded-xl h-6 p-4 bg-[#343944] w-[200px] sm:w-[300px] xs:w-[200px] '
           />
-          <button className=' shadow-md bg-gray-100 h-6 p-4 flex items-center border-gray-100 border-2 '>
+          <button className=' absolute right-2 top-0 bottom-0'>
             <i>
               <SearchSharpIcon />
             </i>
           </button>
         </div>
       </form>
-      <div className='flex gap-5'>
+      <div className='flex items-center gap-5'>
         {!isLoggedIn && (
           <button
             onClick={() => setModal(true)}
-            className='hidden md:block bg-blue-500 border-blue-500 border rounded-2xl px-3 text-white shadow-md'
+            className='hidden max-h-[38px] md:block hover:brightness-90 bg-[#FF5414] text-[15px] font-medium  rounded-2xl px-3 py-2 text-[#f6f7f9] shadow-md'
           >
             Log In
           </button>

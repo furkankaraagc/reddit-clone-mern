@@ -44,7 +44,7 @@ export const Autocomplete = ({ focus, topic, setTopic, refOne }) => {
   return (
     <div className='relative'>
       <div className='relative flex items-center'>
-        <i className='absolute p-2'>
+        <i className='absolute p-2 text-[#FF5414]'>
           <SearchSharpIcon />
         </i>
 
@@ -53,16 +53,16 @@ export const Autocomplete = ({ focus, topic, setTopic, refOne }) => {
           type='text'
           placeholder='Choose a topic'
           onChange={handleChange}
-          className=' pl-10 flex  flex-grow h-9'
+          className=' pl-10 flex rounded-md bg-[#343944] text-[#f6f7f9] flex-grow h-9'
           ref={refOne}
         />
       </div>
 
       {focus && (
-        <ul className='bg-white absolute overflow-auto w-full p-2 z-10 border-gray-200 border-2 '>
+        <ul className='bg-[#343944] text-[#f6f7f9] absolute overflow-auto w-full p-2 z-10 border-gray-500 border '>
           {filtred?.map((option) => (
             <li
-              className='border-b border-gray-200 p-2 cursor-pointer '
+              className='border-b hover:text-blue-500 border-gray-200 p-2 cursor-pointer '
               key={option._id}
               onClick={() => handleSelect(option.category)}
             >

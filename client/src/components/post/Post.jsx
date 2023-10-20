@@ -130,14 +130,14 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
             }
           }}
           key={post._id}
-          className=' hover:border-gray-400  flex justify-start  cursor-pointer mb-2  border-gray-200 border-2 bg-white md:w-[650px] md:mx-auto'
+          className=' hover:border-gray-500 transition-all  ease-in-out  flex justify-start  cursor-pointer mb-2  border-gray-600 border bg-[#23272F] text-[#f6f7f9] md:w-[650px] md:mx-auto'
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className='bg-gray-50 flex flex-col justify-start text-center p-2 '
+            className='bg-[#1f2229] flex flex-col justify-start text-center p-2 '
           >
             <button
-              className='hover:bg-gray-200'
+              className='hover:bg-[#343944] transition-all  ease-in-out rounded-lg p-1'
               onClick={() => {
                 voteHandler(post, 'upvote');
               }}
@@ -145,11 +145,11 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
               {post.votedBy[
                 post.votedBy.findIndex((element) => element.user === userId)
               ]?.voteType === 'upvote' && isLoggedIn ? (
-                <i className='text-2xl text-green-700    '>
+                <i className='text-2xl text-green-700     '>
                   <ThumbUpIcon />
                 </i>
               ) : (
-                <i className='text-2xl text-gray-700 '>
+                <i className='text-2xl text-[#f6f7f9] '>
                   <ThumbUpOutlinedIcon />
                 </i>
               )}
@@ -157,7 +157,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
 
             <span className='font-semibold'> {post.vote} </span>
             <button
-              className='hover:bg-gray-200'
+              className='hover:bg-[#343944]  transition-all  ease-in-out rounded-lg p-1 '
               onClick={() => {
                 voteHandler(post, 'downvote');
               }}
@@ -169,7 +169,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
                   <ThumbDownIcon />
                 </i>
               ) : (
-                <i className='text-2xl text-gray-700 '>
+                <i className='text-2xl text-[#f6f7f9] '>
                   <ThumbDownOutlinedIcon />
                 </i>
               )}
@@ -182,7 +182,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
                   e.stopPropagation();
                   navigate(`/${post.subcategory}`);
                 }}
-                className='font-semibold text-sm box-border border-b border-transparent hover:border-black'
+                className='font-semibold text-sm box-border border-b border-transparent hover:bg-[#343944] transition-all  ease-in-out rounded-lg px-1'
               >
                 r/{post.subcategory}
               </p>
@@ -195,7 +195,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
             <p className='font my-1'>{post.body}</p>
             <div className='flex  gap-3 opacity-80'>
               <div
-                className='flex hover:bg-gray-100 p-2'
+                className='flex hover:bg-[#343944] rounded-lg p-2 transition-all  ease-in-out'
                 onClick={(e) => {
                   e.stopPropagation();
                   if (
@@ -214,7 +214,7 @@ export const Post = ({ post, isLoggedIn, setModal, fetchData, isSubmit }) => {
                 <p>{post.comments.length} Comments</p>
               </div>
               <div
-                className='flex hover:bg-gray-100 p-2 '
+                className='flex hover:bg-[#343944] rounded-lg p-2 transition-all  ease-in-out'
                 onClick={(e) => {
                   e.stopPropagation();
                   saveHandler(post);

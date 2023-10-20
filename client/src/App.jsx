@@ -1,4 +1,10 @@
+// bg-[#23272F] navbar
+// bg-[#343944] input
+
+// bg-[#191A21]  home
+
 import { Navbar } from './components/navbar/Navbar';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState, useRef, lazy, Suspense } from 'react';
 import { Toaster } from 'react-hot-toast';
@@ -36,7 +42,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div onClick={handleCloseSearch} className='bg-gray-200 h-screen '>
+      <div onClick={handleCloseSearch} className='bg-[#23272F] h-screen '>
         <Toaster />
         <Navbar
           focusOne={focusOne}

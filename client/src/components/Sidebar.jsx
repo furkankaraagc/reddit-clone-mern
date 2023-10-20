@@ -49,7 +49,7 @@ export const SideBar = ({ submitHandler }) => {
           data.subcategory?.map((child, index) => (
             <div
               key={index}
-              className='mb-2 cursor-pointer hover:bg-gray-200 border-r-4 border-white p-1'
+              className='mb-2  cursor-pointer hover:bg-[#343944] border border-[#343944] p-2 rounded-lg transition-all ease-in-out'
               onClick={() => navigate(`/${child}`)}
               style={{ marginLeft: `${level * 20}px` }}
             >
@@ -61,9 +61,9 @@ export const SideBar = ({ submitHandler }) => {
   };
 
   return (
-    <div className='lg:overflow-auto hidden lg:block lg:border-l-2 lg:border-gray-300 lg:w-56  bg-white pt-6 pl-4 pb-10  mt-10 fixed h-full'>
+    <div className='lg:overflow-auto min-h-screen hidden lg:block  lg:border-gray-300 text-[#f6f7f9] lg:w-56  bg-[#23272F] pt-6 pl-4 pb-10  mt-10 fixed h-full'>
       {token && (
-        <div className='flex items-center gap-1 mb-2 p-1 hover:bg-gray-100'>
+        <div className='flex items-center gap-1 mb-2 p-1 hover:bg-[#343944]'>
           <i className=''>
             <AddSharpIcon />
           </i>
