@@ -31,7 +31,7 @@ export const Navbar = ({
             <RedditIcon />
           </div>
           <h1 className='hidden sm:block text-xl font-bold text-[#f6f7f9]'>
-            Reddit
+            RedditX
           </h1>
         </div>
       </Link>

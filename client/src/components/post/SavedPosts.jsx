@@ -24,20 +24,21 @@ const SavedPosts = ({ setModal, isLoggedIn }) => {
   };
 
   return (
-    <div className=' bg-gray-200'>
+    <div className=' bg-[#191A21] min-h-screen'>
       <SideBar />
-      <div className='pt-20 md:ml-32 bg-gray-200 '>
-        <h1 className='md:w-[650px] md:mx-auto text-xl mb-2 font-semibold'>
+      <div className='pt-20 md:ml-32 bg-[#191A21] text-[#f6f7f9]'>
+        <h1 className='md:w-[650px] md:mx-auto text-2xl mb-2 font-semibold'>
           Saved Posts
         </h1>
-        {posts.map((post) => (
-          <Post
-            post={post}
-            setModal={setModal}
-            isLoggedIn={isLoggedIn}
-            fetchData={fetchData}
-          />
-        ))}
+        {posts &&
+          posts?.map((post) => (
+            <Post
+              post={post}
+              setModal={setModal}
+              isLoggedIn={isLoggedIn}
+              fetchData={fetchData}
+            />
+          ))}
       </div>
     </div>
   );

@@ -2,6 +2,7 @@
 // bg-[#343944] input
 
 // bg-[#191A21]  home
+// text-[#f6f7f9]
 
 import { Navbar } from './components/navbar/Navbar';
 

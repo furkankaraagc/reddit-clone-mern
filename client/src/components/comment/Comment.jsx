@@ -111,14 +111,14 @@ export const Comment = ({
     fetchComments();
   };
   return (
-    <div className='flex flex-col border-l-2 border-gray-400  '>
-      <div className='border-2 border-l-0 border-gray-400 flex p-1 mb-2'>
+    <div className='flex flex-col border-l-2 border-gray-500 text-[#f6f7f9] '>
+      <div className='border border-l-0 border-gray-500 flex p-1 mb-2'>
         <div
           onClick={(e) => e.stopPropagation()}
-          className='bg-gray-50 flex flex-col justify-start text-center p-2 '
+          className='bg-[#1f2229] flex flex-col justify-start text-center p-2 '
         >
           <button
-            className='hover:bg-gray-200'
+            className='hover:bg-[#343944]'
             onClick={() => {
               voteHandler(parentComment, 'upvote');
             }}
@@ -128,11 +128,11 @@ export const Comment = ({
                 (element) => element.user === userId,
               )
             ]?.voteType === 'upvote' && token ? (
-              <i className='text-2xl text-gray-700 '>
+              <i className='text-2xl  '>
                 <ThumbUpIcon />
               </i>
             ) : (
-              <i className='text-2xl text-gray-700 '>
+              <i className='text-2xl  '>
                 <ThumbUpOutlinedIcon />
               </i>
             )}
@@ -140,7 +140,7 @@ export const Comment = ({
 
           <span className='font-semibold'> {parentComment.vote} </span>
           <button
-            className='hover:bg-gray-200'
+            className='hover:bg-[#343944]'
             onClick={() => {
               voteHandler(parentComment, 'downvote');
             }}
@@ -150,11 +150,11 @@ export const Comment = ({
                 (element) => element.user === userId,
               )
             ]?.voteType === 'downvote' && token ? (
-              <i className='text-2xl text-gray-700 '>
+              <i className='text-2xl  '>
                 <ThumbDownIcon />
               </i>
             ) : (
-              <i className='text-2xl text-gray-700 '>
+              <i className='text-2xl  '>
                 <ThumbDownOutlinedIcon />
               </i>
             )}
@@ -163,7 +163,7 @@ export const Comment = ({
         <div>
           <div className='flex  items-center'>
             <div className='mr-1'>{username}</div>
-            <div className='text-gray-600 text-sm '>{commentDate()}</div>
+            <div className=' text-sm '>{commentDate()}</div>
           </div>
           <div>{parentComment.body}</div>
           <section className='flex'>
@@ -175,7 +175,7 @@ export const Comment = ({
                 <i>
                   <ChatBubbleOutlineOutlinedIcon />
                 </i>
-                <button className='text-gray-600'>Reply</button>
+                <button className=''>Reply</button>
               </div>
             </div>
 
@@ -187,7 +187,7 @@ export const Comment = ({
                 <i className='opacity-90'>
                   <DeleteSharpIcon />
                 </i>
-                <button className='text-gray-600'>Delete</button>
+                <button className=''>Delete</button>
               </div>
             </div>
           </section>
@@ -201,21 +201,23 @@ export const Comment = ({
           <textarea
             onChange={(e) => setComment(e.target.value)}
             value={comment}
-            className='border-2 border-gray-200 p-2'
+            className='border bg-[#343944]  border-gray-500 p-2'
             cols='70'
             rows='5'
             placeholder='What are your thoughts'
           ></textarea>
-          <button
-            disabled={disabled}
-            className={
-              !disabled
-                ? ' bg-blue-600 text-white  rounded-lg mt-1 py-1 hover:opacity-90'
-                : 'cursor-not-allowed bg-gray-400 rounded-lg mt-1 py-1'
-            }
-          >
-            Reply
-          </button>
+          <div className='flex justify-end'>
+            <button
+              disabled={disabled}
+              className={` bg-[#FF5414]  rounded-lg mt-2 py-2 px-4 ${
+                !disabled
+                  ? '  hover:opacity-90'
+                  : 'cursor-not-allowed opacity-75 '
+              }`}
+            >
+              Reply
+            </button>
+          </div>
         </form>
       )}
 

@@ -50,29 +50,32 @@ export const Comments = ({ setModal, comments, fetchComments }) => {
   };
 
   return (
-    <div className='md:w-[650px] md:mx-auto md:p-3 bg-white  '>
+    <div className='md:w-[650px] md:mx-auto md:p-3 bg-[#23272F] text-[#f6f7f9]  '>
       <form
         onSubmit={submitHandler}
         className='flex justify-center flex-col mb-3'
       >
         <textarea
           onChange={(e) => setParentInput(e.target.value)}
-          className='border-2 border-gray-200 p-2'
+          className='border bg-[#343944]  border-gray-500 p-2'
           value={parentInput}
           cols='70'
           rows='5'
           placeholder='What are your thoughts'
         ></textarea>
-        <button
-          disabled={disabled}
-          className={
-            !disabled
-              ? ' bg-blue-600 text-white  rounded-lg mt-1 py-1 hover:opacity-90'
-              : 'cursor-not-allowed bg-gray-400 rounded-lg mt-1 py-1'
-          }
-        >
-          Submit
-        </button>
+        <div className='flex justify-end'>
+          <button
+            disabled={disabled}
+            className={`bg-[#FF5414] py-2 px-4 mt-2 rounded-lg 
+             ${
+               !disabled
+                 ? '     hover:opacity-90'
+                 : 'cursor-not-allowed  opacity-75  '
+             }`}
+          >
+            Submit
+          </button>
+        </div>
       </form>
       <div>
         {parentComments.map((parentComment) => (
