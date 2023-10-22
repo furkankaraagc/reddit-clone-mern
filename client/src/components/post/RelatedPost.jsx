@@ -38,7 +38,7 @@ const RelatedPost = ({ setModal, isLoggedIn }) => {
   return (
     <div>
       <SideBar />
-      <div className='pt-20 lg:ml-56 h-screen '>
+      <div className='pt-20 lg:ml-56 h-screen bg-[#191A21] '>
         {post && (
           <div className='bg-[#191A21] '>
             <Post

@@ -76,7 +76,6 @@ export const User = ({
       setNotify(error.response.data.message);
     }
   };
-  console.log(focusOne);
 
   return (
     <>

@@ -21,7 +21,7 @@ const Subcategory = ({ setModal, isLoggedIn }) => {
   return (
     <div>
       <SideBar />
-      <div className='pt-20 lg:ml-56 bg-[#191A21] min-h-screen'>
+      <div className='pt-20 lg:ml-56 bg-[#191A21] min-h-screen '>
         <h1 className='md:w-[650px] md:mx-auto mb-4 text-2xl font-semibold  text-[#f6f7f9]'>
           r/{subcategory}
         </h1>
