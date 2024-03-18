@@ -1,5 +1,5 @@
 # reddit-clone
-Blog application similar to reddit with react, node js, express js, mongodb
+A Blog application similar to reddit built with React, Node.js, Express js and MongoDB.
 
 
 Features:
